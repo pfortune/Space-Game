@@ -3,6 +3,7 @@ float lastBarrierSpawnTime;
 float lastDrawTime;
 int spawnInterval = 10000;
 Barrier[] barriers;
+Ship ship;
 
 void setup(){
   size(1280, 720);
@@ -11,6 +12,7 @@ void setup(){
   barrierHeight = 10;
   barriers = new Barrier[0];
   lastBarrierSpawnTime = -spawnInterval; // spawns barrier immediately
+  ship = new Ship();
 }
 
 void draw(){
@@ -33,6 +35,9 @@ void draw(){
     b.update(deltaTime);
     b.display();
   }
+  
+  ship.update(deltaTime);
+  ship.display();
 }
 
 void addBarrier(Barrier b){
