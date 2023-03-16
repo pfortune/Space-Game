@@ -40,9 +40,12 @@ void draw() {
     }
   }
 
+  System.out.println("Size of the barriers array: " + barriers.length);
 
   ship.update(deltaTime);
   ship.display();
+  
+  removeBarriers();
 }
 
 void addBarrier(Barrier b) {
@@ -51,3 +54,25 @@ void addBarrier(Barrier b) {
   newBarriers[barriers.length] = b;
   barriers = newBarriers;
 }
+
+private void removeBarriers() {
+    for (int i = 0; i < barriers.length; i++) {
+      Barrier b = barriers[i];
+      if (b.getY() >= height) {
+        System.out.println("Barriers no longer visible on screen: " + i);
+        barriers = removeFromArray(barriers, i);
+        i--; // Decrement index to account for removed item
+      }
+    }
+  }
+
+  private Barrier[] removeFromArray(Barrier[] array, int index) {
+    Barrier[] newArray = new Barrier[array.length - 1];
+    for (int i = 0, j = 0; i < array.length; i++) {
+      if (i == index) {
+        continue;
+      }
+      newArray[j++] = array[i];
+    }
+    return newArray;
+  }
