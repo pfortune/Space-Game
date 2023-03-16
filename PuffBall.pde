@@ -16,6 +16,10 @@ public class PuffBall {
     this.spawnedAt = millis();
   }
 
+  public PuffBall(float x, float y, color startColour) {
+    this(1000, 4, 20, x, y, startColour, color(255, 255, 255, 0));
+  }
+
   public void update() {
     float livedFor = millis() - spawnedAt;
     float percentComplete = livedFor / duration;

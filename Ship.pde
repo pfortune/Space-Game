@@ -78,9 +78,10 @@ public class Ship {
   public void addPuff(float x, float y, color startColour) {
     PuffBall[] newPuffs = new PuffBall[puffs.length + 1];
     arrayCopy(puffs, newPuffs);
-    newPuffs[puffs.length] = new PuffBall(1000, 4, 20, x, y, startColour, color(255, 255, 255, 0));
+    newPuffs[puffs.length] = new PuffBall(x, y, startColour);
     puffs = newPuffs;
   }
+
 
   public BoundingBox getBoundingBox() {
     return boundingBox;
