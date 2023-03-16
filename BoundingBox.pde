@@ -18,6 +18,10 @@ public class BoundingBox {
     return xOverlap && yOverlap;
   }
 
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
+
   public float getX() {
     return x;
   }

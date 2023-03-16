@@ -1,17 +1,17 @@
 public class Ship {
-  float speed, x, y, w, h;
-  color colour;
-  BoundingBox boundingBox;
-  PuffBall[] puffs;
+  private float speed, x, y, w, h;
+  private color colour;
+  private BoundingBox boundingBox;
+  private PuffBall[] puffs;
 
   public Ship() {
-    this.x = width/2;
-    this.y = height - 45;
-    this.w = 30;
-    this.h = 40;
-    this.speed = 100;
-    this.colour = color(122, 122, 255);
-    boundingBox = new BoundingBox(x - (w/2), y - (h/2), w, h);
+    setX(width/2);
+    setY(height - 45);
+    setW(30);
+    setH(40);
+    setSpeed(100);
+    setColour(color(122, 122, 255));
+    boundingBox = new BoundingBox(getX() - (getW()/2), getY() - (getH()/2), getW(), getH());
     this.puffs = new PuffBall[0];
   }
 
@@ -41,6 +41,8 @@ public class Ship {
     } else if (rand > 90) {
       addPuff(x + 10, y + 30, color(255, 125, 0, 255));
     }
+
+    removeExpiredPuffs();
   }
 
   public void display() {
@@ -65,14 +67,8 @@ public class Ship {
       p.update();
       p.display();
     }
-  }
 
-  public float getX() {
-    return this.x;
-  }
-
-  public float getY() {
-    return this.y;
+    System.out.println("Size of the puffs array: " + puffs.length);
   }
 
   public void addPuff(float x, float y, color startColour) {
@@ -82,6 +78,79 @@ public class Ship {
     puffs = newPuffs;
   }
 
+  private void removeExpiredPuffs() {
+    for (int i = 0; i < puffs.length; i++) {
+      PuffBall p = puffs[i];
+      if ((millis() - p.spawnedAt) >= p.duration) {
+        System.out.println("Removing expired puff at index " + i);
+        puffs = removeFromArray(puffs, i);
+        i--; // Decrement index to account for removed item
+      }
+    }
+  }
+
+  private PuffBall[] removeFromArray(PuffBall[] array, int index) {
+    PuffBall[] newArray = new PuffBall[array.length - 1];
+    for (int i = 0, j = 0; i < array.length; i++) {
+      if (i == index) {
+        continue;
+      }
+      newArray[j++] = array[i];
+    }
+    return newArray;
+  }
+
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
+
+  public float getX() {
+    return this.x;
+  }
+
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  public float getY() {
+    return this.y;
+  }
+
+  public void setY(float y) {
+    this.y = y;
+  }
+
+  public float getW() {
+    return this.w;
+  }
+
+  public void setW(float w) {
+    this.w = w;
+  }
+
+  public float getH() {
+    return this.h;
+  }
+
+  public void setH(float h) {
+    this.h = h;
+  }
+
+  public float getSpeed() {
+    return this.speed;
+  }
+
+  public void setSpeed(float speed) {
+    this.speed = speed;
+  }
+
+  public color getColour() {
+    return this.colour;
+  }
+
+  public void setColour(color colour) {
+    this.colour = colour;
+  }
 
   public BoundingBox getBoundingBox() {
     return boundingBox;
