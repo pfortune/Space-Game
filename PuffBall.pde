@@ -37,6 +37,10 @@ public class PuffBall {
     circle(getX(), getY(), getCurrentRadius());
   }
 
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
+
   public int getDuration() {
     return duration;
   }
