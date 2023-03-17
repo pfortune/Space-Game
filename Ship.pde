@@ -8,17 +8,17 @@ public class Ship {
   public Ship(KeyHandler keyhandler) {
     setX(width/2);
     setY(height - 45);
-    setW(30);
-    setH(40);
+    setWidth(30);
+    setHeight(40);
     setSpeed(100);
     setColour(color(122, 122, 255));
-    boundingBox = new BoundingBox(getX() - (getW()/2), getY() - (getH()/2), getW(), getH());
+    boundingBox = new BoundingBox(getX() - (getWidth()/2), getY() - (getHeight()/2), getWidth(), getHeight());
     this.puffs = new PuffBall[0];
     this.keyHandler = keyhandler;
   }
 
   public void update(float deltaTime) {
-    boundingBox.setX(getX() - (getW()/2));
+    boundingBox.setX(getX() - (getWidth()/2));
 
     if (this.keyHandler.isLeft() || this.keyHandler.isRight() || this.keyHandler.isUp() || this.keyHandler.isDown()) {
       float rand = random(0, 100);
@@ -36,7 +36,7 @@ public class Ship {
   public void display() {
     // Ship body
     fill(colour);
-    triangle(getX() - getW()/2, getY() + getH()/2, getX(), getY() - getH()/2, getX() + getW()/2, getY() + getH()/2);
+    triangle(getX() - getWidth()/2, getY() + getHeight()/2, getX(), getY() - getHeight()/2, getX() + getWidth()/2, getY() + getHeight()/2);
 
     // Rockets, make darker than body
     color rocketColour = lerpColor(colour, color(0, 0, 0), 0.4);
@@ -89,19 +89,19 @@ public class Ship {
   }
 
   public void move(float deltaTime) {
-    if (keyHandler.isLeft() && getX() - (getW() / 2) > 0) {
+    if (keyHandler.isLeft() && getX() - (getWidth() / 2) > 0) {
       setX(getX() - (getSpeed() * deltaTime));
     }
 
-    if (keyHandler.isRight() && getX() + (getW() / 2) < width) {
+    if (keyHandler.isRight() && getX() + (getWidth() / 2) < width) {
       setX(getX() + (getSpeed() * deltaTime));
     }
 
-    if (keyHandler.isUp() && getY() - (getH() / 2) > 0) {
+    if (keyHandler.isUp() && getY() - (getHeight() / 2) > 0) {
       setY(getY() - (getSpeed() * deltaTime));
     }
 
-    if (keyHandler.isDown() && getY() + (getH() / 2) < height) {
+    if (keyHandler.isDown() && getY() + (getHeight() / 2) < height) {
       setY(getY() + (getSpeed() * deltaTime));
     }
   }
@@ -127,19 +127,19 @@ public class Ship {
     this.y = y;
   }
 
-  public float getW() {
+  public float getWidth() {
     return this.w;
   }
 
-  public void setW(float w) {
+  public void setWidth(float w) {
     this.w = w;
   }
 
-  public float getH() {
+  public float getHeight() {
     return this.h;
   }
 
-  public void setH(float h) {
+  public void setHeight(float h) {
     this.h = h;
   }
 

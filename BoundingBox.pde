@@ -1,5 +1,5 @@
 public class BoundingBox {
-  public float x, y, w, h;
+  private float x, y, w, h;
 
   public BoundingBox(float x, float y, float w, float h) {
     setX(x);
@@ -23,7 +23,7 @@ public class BoundingBox {
   /*********************/
 
   public float getX() {
-    return x;
+    return this.x;
   }
 
   public void setX(float x) {
@@ -39,7 +39,7 @@ public class BoundingBox {
   }
 
   public float getWidth() {
-    return w;
+    return this.w;
   }
 
   public void setWidth(float w) {
@@ -47,7 +47,7 @@ public class BoundingBox {
   }
 
   public float getHeight() {
-    return h;
+    return this.h;
   }
 
   public void setHeight(float h) {

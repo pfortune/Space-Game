@@ -29,12 +29,16 @@ public class PuffBall {
   }
 
   public void display() {
-    if ((millis() - spawnedAt) >= duration) {
+    if (isExpired()) {
       return;
     }
 
     fill(getCurrentColour());
     circle(getX(), getY(), getCurrentRadius());
+  }
+  
+   public boolean isExpired() {
+    return (millis() - spawnedAt) >= duration;
   }
 
   /*********************/
@@ -42,7 +46,7 @@ public class PuffBall {
   /*********************/
 
   public int getDuration() {
-    return duration;
+    return this.duration;
   }
 
   public void setDuration(int duration) {
@@ -50,7 +54,7 @@ public class PuffBall {
   }
 
   public float getStartRadius() {
-    return startRadius;
+    return this.startRadius;
   }
 
   public void setStartRadius(float startRadius) {
@@ -58,7 +62,7 @@ public class PuffBall {
   }
 
   public float getEndRadius() {
-    return endRadius;
+    return this.endRadius;
   }
 
   public void setEndRadius(float endRadius) {
@@ -66,7 +70,7 @@ public class PuffBall {
   }
 
   public float getCurrentRadius() {
-    return currentRadius;
+    return this.currentRadius;
   }
 
   public void setCurrentRadius(float currentRadius) {
@@ -74,7 +78,7 @@ public class PuffBall {
   }
 
   public float getX() {
-    return x;
+    return this.x;
   }
 
   public void setX(float x) {
@@ -82,7 +86,7 @@ public class PuffBall {
   }
 
   public float getY() {
-    return y;
+    return this.y;
   }
 
   public void setY(float y) {
@@ -90,7 +94,7 @@ public class PuffBall {
   }
 
   public color getStartColour() {
-    return startColour;
+    return this.startColour;
   }
 
   public void setStartColour(color startColour) {
@@ -98,7 +102,7 @@ public class PuffBall {
   }
 
   public color getEndColour() {
-    return endColour;
+    return this.endColour;
   }
 
   public void setEndColour(color endColour) {
@@ -106,7 +110,7 @@ public class PuffBall {
   }
 
   public color getCurrentColour() {
-    return currentColour;
+    return this.currentColour;
   }
 
   public void setCurrentColour(color currentColour) {

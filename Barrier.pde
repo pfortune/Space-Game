@@ -23,7 +23,7 @@ public class Barrier {
     setX(-10);
     setY(-getHeight());
     setWidth(width + 20);
-    setSpeed(50);
+    setSpeed(20);
     setColour(color(255, 255, 122));
     this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
   }

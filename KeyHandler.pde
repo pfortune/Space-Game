@@ -2,41 +2,45 @@ public class KeyHandler {
   private boolean left, right, up, down;
 
   public KeyHandler() {
-    left = false;
-    right = false;
-    up = false;
-    down = false;
+    setLeft(false);
+    setRight(false);
+    setUp(false);
+    setDown(false);
   }
+  
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
 
   public void setLeft(boolean state) {
-    left = state;
+    this.left = state;
   }
 
   public void setRight(boolean state) {
-    right = state;
+    this.right = state;
   }
 
   public void setUp(boolean state) {
-    up = state;
+    this.up = state;
   }
 
   public void setDown(boolean state) {
-    down = state;
+    this.down = state;
   }
 
   public boolean isLeft() {
-    return left;
+    return this.left;
   }
 
   public boolean isRight() {
-    return right;
+    return this.right;
   }
 
   public boolean isUp() {
-    return up;
+    return this.up;
   }
 
   public boolean isDown() {
-    return down;
+    return this.down;
   }
 }

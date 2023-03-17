@@ -1,7 +1,7 @@
 float barrierHeight;
 float lastBarrierSpawnTime;
 float lastDrawTime;
-int spawnInterval = 5000;
+int spawnInterval = 10000;
 KeyHandler keyHandler;
 Barrier[] barriers;
 Ship ship;
