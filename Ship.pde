@@ -9,24 +9,20 @@ public class Ship {
     setY(height - 45);
     setW(30);
     setH(40);
-    setSpeed(100);
+    setSpeed(3);
     setColour(color(122, 122, 255));
     boundingBox = new BoundingBox(getX() - (getW()/2), getY() - (getH()/2), getW(), getH());
     this.puffs = new PuffBall[0];
   }
 
   public void update(float deltaTime) {
-    if (getX() == mouseX) {
-      return;
-    }
-
-    if (abs(getX()-mouseX) <= getSpeed() * deltaTime) {
-      setX(mouseX);
+    if (abs(getX()-x) <= getSpeed() * deltaTime) {
+      setX(x);
       boundingBox.setX(getX() - (getW()/2));
       return;
     }
 
-    if ((mouseX - getX()) > 0) {
+    if ((x - getX()) > 0) {
       setX(getX() + getSpeed() * deltaTime);
     } else {
       setX(getX() - getSpeed() * deltaTime);
@@ -42,6 +38,15 @@ public class Ship {
       addPuff(getX() + 10, getY() + 30, color(255, 125, 0, 255));
     }
 
+    for (int i = 0; i < puffs.length; i++) {
+      PuffBall p = puffs[i];
+      float livedFor = millis() - p.spawnedAt;
+      float percentComplete = livedFor / p.getDuration();
+
+      p.setCurrentColour(lerpColor(p.getStartColour(), p.getEndColour(), percentComplete));
+      p.setCurrentRadius(lerp(p.getStartRadius(), p.getEndRadius(), percentComplete));
+    }
+    
     removeExpiredPuffs();
   }
 
@@ -64,7 +69,6 @@ public class Ship {
 
     for (int i = 0; i < puffs.length; i++) {
       PuffBall p = puffs[i];
-      p.update();
       p.display();
     }
 
