@@ -43,7 +43,7 @@ void draw() {
     lastBarrierSpawnTime = millis();
   }
 
-  // Initialize a flag for checking if the ship is colliding with any barriers
+  // Initialise a flag for checking if the ship is colliding with any barriers
   boolean isCollidingWithAnyBarrier = false;
 
   // Loop through all barriers
@@ -64,7 +64,7 @@ void draw() {
 
   // If the ship is colliding with any barriers
   if (isCollidingWithAnyBarrier) {
-    if (!ship.isColliding()) {
+    if (!ship.isInCollision()) {
       println("collision");
       player.loseLife(); // Reduce player's lives
       ship.setColliding(true); // Set the ship's collision status to true

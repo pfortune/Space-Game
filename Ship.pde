@@ -28,6 +28,8 @@ public class Ship {
 
   public void update(float deltaTime) {
     boundingBox.setX(getX() - (getWidth()/2));
+    boundingBox.setY(getY() - (getHeight()/2));
+    
     timeSinceLastFired += deltaTime;
 
     if (this.keyHandler.isLeft() || this.keyHandler.isRight() || this.keyHandler.isUp() || this.keyHandler.isDown()) {
@@ -229,7 +231,7 @@ public class Ship {
     this.missileCount++;
   }
   
-  public boolean isColliding(){
+  public boolean isInCollision(){
     return this.isColliding;
   }
   
