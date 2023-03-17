@@ -5,6 +5,8 @@ public class Ship {
   private PuffBall[] puffs;
   private KeyHandler keyHandler;
   private Missile[] missiles;
+  private float timeSinceLastFired;
+  private int missileCount;
 
   public Ship(KeyHandler keyhandler) {
     setX(width/2);
@@ -17,10 +19,13 @@ public class Ship {
     this.puffs = new PuffBall[0];
     this.keyHandler = keyhandler;
     this.missiles = new Missile[0];
+    timeSinceLastFired = 0;
+    missileCount = 5;
   }
 
   public void update(float deltaTime) {
     boundingBox.setX(getX() - (getWidth()/2));
+    timeSinceLastFired += deltaTime;
 
     if (this.keyHandler.isLeft() || this.keyHandler.isRight() || this.keyHandler.isUp() || this.keyHandler.isDown()) {
       float rand = random(0, 100);
@@ -31,17 +36,18 @@ public class Ship {
         addPuff(getX() + 10, getY() + 30, color(255, 125, 0, 255));
       }
     }
-    
-    if(keyHandler.isSpace()) {
+
+    if (keyHandler.isSpace()) {
       fireMissile();
     }
-    
-    for(int i = 0; i < missiles.length; i++){
+
+    for (int i = 0; i < missiles.length; i++) {
       Missile m = missiles[i];
       m.update();
     }
 
     removeExpiredPuffs();
+    removeExpiredMissiles();
   }
 
   public void display() {
@@ -66,20 +72,24 @@ public class Ship {
       p.update();
       p.display();
     }
-    
+
     for (int i = 0; i < missiles.length; i++) {
       Missile m = missiles[i];
       m.display();
     }
-
+    System.out.println("Size of the missiles array: " + missiles.length);
     System.out.println("Size of the puffs array: " + puffs.length);
   }
 
   public void fireMissile() {
-    Missile[] newArray = new Missile[missiles.length + 1];
-    arrayCopy(missiles, newArray);
-    newArray[missiles.length] = new Missile(getX(), getY() - getHeight() / 2);
-    missiles = newArray;
+    if (missileCount > 0 && timeSinceLastFired >= 1) {
+      timeSinceLastFired = 0;
+      Missile[] newArray = new Missile[missiles.length + 1];
+      arrayCopy(missiles, newArray);
+      newArray[missiles.length] = new Missile(getX(), getY() - getHeight() / 2);
+      missiles = newArray;
+      missileCount--;
+    }
   }
 
   public void addPuff(float x, float y, color startColour) {
@@ -87,6 +97,28 @@ public class Ship {
     arrayCopy(puffs, newArray);
     newArray[puffs.length] = new PuffBall(x, y, startColour);
     puffs = newArray;
+  }
+
+  private void removeExpiredMissiles() {
+    for (int i = 0; i < missiles.length; i++) {
+      Missile m = missiles[i];
+      if (m.getY() < 0) {
+        System.out.println("Removing expired missile at index " + i);
+        missiles = removeFromArray(missiles, i);
+        i--; // Decrement index to account for removed item
+      }
+    }
+  }
+
+  private Missile[] removeFromArray(Missile[] array, int index) {
+    Missile[] newArray = new Missile[array.length - 1];
+    for (int i = 0, j = 0; i < array.length; i++) {
+      if (i == index) {
+        continue;
+      }
+      newArray[j++] = array[i];
+    }
+    return newArray;
   }
 
   private void removeExpiredPuffs() {
@@ -184,5 +216,13 @@ public class Ship {
 
   public BoundingBox getBoundingBox() {
     return boundingBox;
+  }
+  
+  public int getMissileCount() {
+    return this.missileCount;
+  }
+  
+  public void addMissile() {
+    this.missileCount++;
   }
 }

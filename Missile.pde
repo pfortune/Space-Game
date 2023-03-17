@@ -1,6 +1,7 @@
 public class Missile {
   private float x, y, w, h, speed;
   private color colour;
+  private BoundingBox boundingBox;
   
   public Missile(float x, float y){
     setX(x);
@@ -9,10 +10,13 @@ public class Missile {
     setHeight(15);
     setSpeed(5);
     setColour(color(255,0,155));
+    this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
   }
   
   public void update() {
     y -= speed;
+    boundingBox.setX(getX());
+    boundingBox.setY(getY());
   }
   
   public void display() {
@@ -23,6 +27,10 @@ public class Missile {
   /*********************/
   /* Getters & Setters */
   /*********************/
+  
+  public BoundingBox getBoundingBox() {
+    return boundingBox;
+  }
   
   public void setX(float x) {
     this.x = x;

@@ -37,17 +37,21 @@ void draw() {
     b.display();
 
     if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-      println("collision");
+      //println("collision");
     }
   }
 
-  System.out.println("Size of the barriers array: " + barriers.length);
+  //System.out.println("Size of the barriers array: " + barriers.length);
 
   ship.move(deltaTime);
   ship.update(deltaTime);
   ship.display();
 
   removeBarriers();
+  
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("Missiles: " + ship.getMissileCount(), width / 2, 30);
 }
 
 public void addBarrier(Barrier b) {
