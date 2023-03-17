@@ -1,7 +1,6 @@
 float barrierHeight;
 float lastBarrierSpawnTime;
 float lastDrawTime;
-boolean up, down, left, right;
 int spawnInterval = 5000;
 KeyHandler keyHandler;
 Barrier[] barriers;
@@ -14,8 +13,9 @@ void setup() {
   barrierHeight = 10;
   barriers = new Barrier[0];
   lastBarrierSpawnTime = -spawnInterval; // spawns barrier immediately
-  ship = new Ship();
   keyHandler = new KeyHandler();
+  ship = new Ship(keyHandler);
+  
 }
 
 void draw() {
@@ -46,22 +46,15 @@ void draw() {
 
   System.out.println("Size of the barriers array: " + barriers.length);
 
-  if (keyPressed && (key == CODED)) {
-    if (keyCode == LEFT) {
-      ship.setX(ship.getX() - ship.getSpeed());
-    } else if (keyCode == RIGHT) {
-      ship.setX(ship.getX() + ship.getSpeed());
-    }
-  }
-
   if (keyHandler.isUp()) {
-    ship.setY(yShipPos - ship.getSpeed());
+    ship.setY(yShipPos - (ship.getSpeed() * deltaTime));
   }
 
   if (keyHandler.isDown()) {
-    ship.setY(yShipPos + ship.getSpeed());
+    ship.setY(yShipPos + (ship.getSpeed() * deltaTime));
   }
 
+  ship.move(deltaTime);
   ship.update(deltaTime);
   ship.display();
 
