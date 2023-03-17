@@ -16,30 +16,30 @@ public class Ship {
   }
 
   public void update(float deltaTime) {
-    if (x == mouseX) {
+    if (getX() == mouseX) {
       return;
     }
 
-    if (abs(x-mouseX) <= speed * deltaTime) {
-      x = mouseX;
-      boundingBox.x = x - (w/2);
+    if (abs(getX()-mouseX) <= getSpeed() * deltaTime) {
+      setX(mouseX);
+      boundingBox.setX(getX() - (getW()/2));
       return;
     }
 
-    if ((mouseX - x) > 0) {
-      x += speed * deltaTime;
+    if ((mouseX - getX()) > 0) {
+      setX(getX() + getSpeed() * deltaTime);
     } else {
-      x -= speed * deltaTime;
+      setX(getX() - getSpeed() * deltaTime);
     }
 
-    boundingBox.x = x - (w/2);
+    boundingBox.setX(getX() - (getW()/2));
 
     float rand = random(0, 100);
 
     if (rand > 95) {
-      addPuff(x - 10, y + 30, color(255, 0, 0, 255));
+      addPuff(getX() - 10, getY() + 30, color(255, 0, 0, 255));
     } else if (rand > 90) {
-      addPuff(x + 10, y + 30, color(255, 125, 0, 255));
+      addPuff(getX() + 10, getY() + 30, color(255, 125, 0, 255));
     }
 
     removeExpiredPuffs();
@@ -48,19 +48,19 @@ public class Ship {
   public void display() {
     // Ship body
     fill(colour);
-    triangle(x - w/2, y + h/2, x, y - h/2, x + w/2, y + h/2);
+    triangle(getX() - getW()/2, getY() + getH()/2, getX(), getY() - getH()/2, getX() + getW()/2, getY() + getH()/2);
 
     // Rockets, make darker than body
     color rocketColour = lerpColor(colour, color(0, 0, 0), 0.4);
     fill(rocketColour);
-    rect(x - 15, y +5, 5, 20);
-    rect(x + 10, y +5, 5, 20);
+    rect(getX() - 15, getY() +5, 5, 20);
+    rect(getX() + 10, getY() +5, 5, 20);
 
     // Make rocket flames
     color flameColour = color(255, 255, 189);
     fill(flameColour);
-    rect(x - 15, y + 25, 5, 4);
-    rect(x + 10, y + 25, 5, 4);
+    rect(getX() - 15, getY() + 25, 5, 4);
+    rect(getX() + 10, getY() + 25, 5, 4);
 
     for (int i = 0; i < puffs.length; i++) {
       PuffBall p = puffs[i];
@@ -72,10 +72,10 @@ public class Ship {
   }
 
   public void addPuff(float x, float y, color startColour) {
-    PuffBall[] newPuffs = new PuffBall[puffs.length + 1];
-    arrayCopy(puffs, newPuffs);
-    newPuffs[puffs.length] = new PuffBall(x, y, startColour);
-    puffs = newPuffs;
+    PuffBall[] newArray = new PuffBall[puffs.length + 1];
+    arrayCopy(puffs, newArray);
+    newArray[puffs.length] = new PuffBall(x, y, startColour);
+    puffs = newArray;
   }
 
   private void removeExpiredPuffs() {

@@ -1,7 +1,7 @@
 float barrierHeight;
 float lastBarrierSpawnTime;
 float lastDrawTime;
-int spawnInterval = 10000;
+int spawnInterval = 5000;
 Barrier[] barriers;
 Ship ship;
 
@@ -44,35 +44,35 @@ void draw() {
 
   ship.update(deltaTime);
   ship.display();
-  
+
   removeBarriers();
 }
 
 void addBarrier(Barrier b) {
-  Barrier[] newBarriers = new Barrier[barriers.length+1];
-  arrayCopy(barriers, newBarriers);
-  newBarriers[barriers.length] = b;
-  barriers = newBarriers;
+  Barrier[] newArray = new Barrier[barriers.length+1];
+  arrayCopy(barriers, newArray);
+  newArray[barriers.length] = b;
+  barriers = newArray;
 }
 
 private void removeBarriers() {
-    for (int i = 0; i < barriers.length; i++) {
-      Barrier b = barriers[i];
-      if (b.getY() >= height) {
-        System.out.println("Barriers no longer visible on screen: " + i);
-        barriers = removeFromArray(barriers, i);
-        i--; // Decrement index to account for removed item
-      }
+  for (int i = 0; i < barriers.length; i++) {
+    Barrier b = barriers[i];
+    if (b.getY() >= height) {
+      System.out.println("Barriers no longer visible on screen: " + i);
+      barriers = removeFromArray(barriers, i);
+      i--; // Decrement index to account for removed item
     }
   }
+}
 
-  private Barrier[] removeFromArray(Barrier[] array, int index) {
-    Barrier[] newArray = new Barrier[array.length - 1];
-    for (int i = 0, j = 0; i < array.length; i++) {
-      if (i == index) {
-        continue;
-      }
-      newArray[j++] = array[i];
+private Barrier[] removeFromArray(Barrier[] array, int index) {
+  Barrier[] newArray = new Barrier[array.length - 1];
+  for (int i = 0, j = 0; i < array.length; i++) {
+    if (i == index) {
+      continue;
     }
-    return newArray;
+    newArray[j++] = array[i];
   }
+  return newArray;
+}
