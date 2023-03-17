@@ -16,7 +16,7 @@ public class Ship {
     setHeight(40);
     setSpeed(100);
     setColour(color(122, 122, 255));
-    isColliding(false);
+    setColliding(false);
     boundingBox = new BoundingBox(getX() - (getWidth()/2), getY() - (getHeight()/2), getWidth(), getHeight());
     this.puffs = new PuffBall[0];
     this.keyHandler = keyhandler;

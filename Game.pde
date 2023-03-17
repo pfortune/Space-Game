@@ -30,45 +30,56 @@ void setup() {
 }
 
 void draw() {
+  // Set the background color to black
   background(0);
+
+  // Calculate the time elapsed since the last draw call
   float deltaTime = (millis() - lastDrawTime)/1000;
   lastDrawTime = millis();
 
+  // Spawn a new barrier if it's time to spawn one
   if (millis() - lastBarrierSpawnTime >= spawnInterval) {
     addBarrier(new Barrier());
     lastBarrierSpawnTime = millis();
   }
 
-  for (int i=0; i < barriers.length; i++) {
+  // Initialize a flag for checking if the ship is colliding with any barriers
+  boolean isCollidingWithAnyBarrier = false;
+
+  // Loop through all barriers
+  for (int i = 0; i < barriers.length; i++) {
     if (barriers[i] == null) {
-      continue;
+      continue; // Skip if the barrier is null (removed)
     }
 
     Barrier b = barriers[i];
-    b.update(deltaTime);
-    b.display();
+    b.update(deltaTime); // Update barrier state
+    b.display(); // Draw the barrier
 
+    // Check if the ship is colliding with the current barrier
     if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-      if (!ship.isColliding()) {
-        println("collision");
-        player.loseLife();
-        ship.isColliding(true);
-      }
-    } else {
-      ship.isColliding(false);
+      isCollidingWithAnyBarrier = true;
     }
   }
 
+  // If the ship is colliding with any barriers
+  if (isCollidingWithAnyBarrier) {
+    if (!ship.isColliding()) {
+      println("collision");
+      player.loseLife(); // Reduce player's lives
+      ship.setColliding(true); // Set the ship's collision status to true
+    }
+  } else {
+    ship.setColliding(false); // Set the ship's collision status to false
+  }
 
-  //System.out.println("Size of the barriers array: " + barriers.length);
+  ship.move(deltaTime); // Move the ship
+  ship.update(deltaTime); // Update the ship's state
+  ship.display(); // Draw the ship
 
-  ship.move(deltaTime);
-  ship.update(deltaTime);
-  ship.display();
+  removeBarriers(); // Remove barriers that are no longer needed
 
-  removeBarriers();
-
-  //fill(255,0,0);
+  // Display game information (missiles, player name, score, and lives)
   textSize(20);
   textAlign(CENTER, CENTER);
   text("Missiles: " + ship.getMissileCount(), width / 2 - 250, 30);
@@ -76,6 +87,7 @@ void draw() {
   text("Score: " + player.getScore(), width / 2 + 100, 30);
   text("Lives: " + player.getLives(), width / 2 + 250, 30);
 }
+
 
 public void addBarrier(Barrier b) {
   Barrier[] newArray = new Barrier[barriers.length+1];
