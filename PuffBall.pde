@@ -20,6 +20,7 @@ public class PuffBall {
     this(1000, 4, 20, x, y, startColour, color(255, 255, 255, 0));
   }
 
+  // Update method that changes colour and radius over time
   public void update() {
     float livedFor = millis() - spawnedAt;
     float percentComplete = livedFor / duration;
@@ -28,6 +29,7 @@ public class PuffBall {
     setCurrentRadius(lerp(getStartRadius(), getEndRadius(), percentComplete));
   }
 
+  // Display method that draws the PuffBall if it's not expired
   public void display() {
     if (isExpired()) {
       return;
@@ -36,8 +38,9 @@ public class PuffBall {
     fill(getCurrentColour());
     circle(getX(), getY(), getCurrentRadius());
   }
-  
-   public boolean isExpired() {
+
+  // Checks if the PuffBall is expired (i.e., reached the end of its duration)
+  public boolean isExpired() {
     return (millis() - spawnedAt) >= duration;
   }
 

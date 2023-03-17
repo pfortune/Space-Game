@@ -1,20 +1,24 @@
 public class BoundingBox {
+  // Declare instance variables for position and size
   private float x, y, w, h;
 
+  // Constructor with all parameters
   public BoundingBox(float x, float y, float w, float h) {
+    // Set the instance variables using the provided values
     setX(x);
     setY(y);
     setWidth(w);
     setHeight(h);
   }
 
+  // Check if this bounding box has collided with another bounding box
   public boolean hasCollided(BoundingBox other) {
     // Check if the two bounding boxes overlap on the x-axis
     boolean xOverlap = (this.x < other.getX() + other.getWidth()) && (this.x + this.w > other.getX());
     // Check if the two bounding boxes overlap on the y-axis
     boolean yOverlap = (this.y < other.getY() + other.getHeight()) && (this.y + this.h > other.getY());
 
-    // return true if the bounding boxes overlap in both the x axis and y axis
+    // Return true if the bounding boxes overlap in both the x-axis and y-axis
     return xOverlap && yOverlap;
   }
 

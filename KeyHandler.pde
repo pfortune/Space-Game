@@ -1,7 +1,10 @@
 public class KeyHandler {
+  // Declare instance variables for key states
   private boolean left, right, up, down, space;
 
+  // Constructor for KeyHandler class
   public KeyHandler() {
+    // Initialize all key states to false (not pressed)
     setLeft(false);
     setRight(false);
     setUp(false);
