@@ -1,10 +1,15 @@
+import javax.swing.JOptionPane;
+
+// Objects required in the program
+KeyHandler keyHandler;
+Barrier[] barriers;
+Player player;
+Ship ship;
+
 float barrierHeight;
 float lastBarrierSpawnTime;
 float lastDrawTime;
 int spawnInterval = 30000;
-KeyHandler keyHandler;
-Barrier[] barriers;
-Ship ship;
 
 void setup() {
   size(1280, 720);
@@ -15,6 +20,13 @@ void setup() {
   lastBarrierSpawnTime = -spawnInterval; // spawns barrier immediately
   keyHandler = new KeyHandler();
   ship = new Ship(keyHandler);
+  
+  String playerName = JOptionPane.showInputDialog(null, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
+  if (playerName == null || playerName.trim().isEmpty()) {
+    playerName = "Player1";
+  }
+  
+  player = new Player(playerName, 3);
 }
 
 void draw() {
@@ -37,7 +49,8 @@ void draw() {
     b.display();
 
     if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-      //println("collision");
+      println("collision");
+      player.loseLife();
     }
   }
 
@@ -49,9 +62,13 @@ void draw() {
 
   removeBarriers();
   
+  //fill(255,0,0);
   textSize(20);
   textAlign(CENTER, CENTER);
-  text("Missiles: " + ship.getMissileCount(), width / 2, 30);
+  text("Missiles: " + ship.getMissileCount(), width / 2 - 250, 30);
+  text("Player: " + player.getName(), width / 2 - 100, 30);
+  text("Score: " + player.getScore(), width / 2 + 100, 30);
+  text("Lives: " + player.getLives(), width / 2 + 250, 30);
 }
 
 public void addBarrier(Barrier b) {
