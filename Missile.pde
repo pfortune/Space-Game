@@ -8,7 +8,16 @@ public class Missile {
     setWidth(5);
     setHeight(15);
     setSpeed(5);
-    setColour(color(255,255,155));
+    setColour(color(255,0,155));
+  }
+  
+  public void update() {
+    y -= speed;
+  }
+  
+  public void display() {
+    fill(colour);
+    rect(getX() - (getWidth() / 2), getY() - (getHeight() / 2), getWidth(), getHeight());
   }
   
   /*********************/

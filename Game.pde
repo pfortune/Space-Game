@@ -1,7 +1,7 @@
 float barrierHeight;
 float lastBarrierSpawnTime;
 float lastDrawTime;
-int spawnInterval = 10000;
+int spawnInterval = 30000;
 KeyHandler keyHandler;
 Barrier[] barriers;
 Ship ship;
@@ -35,7 +35,7 @@ void draw() {
     Barrier b = barriers[i];
     b.update(deltaTime);
     b.display();
-   
+
     if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
       println("collision");
     }
@@ -92,6 +92,9 @@ public void keyPressed() {
   if (key == 's' || key == 'S' || keyCode == DOWN) {
     keyHandler.setDown(true);
   }
+  if (key == ' ' || keyCode == 32) {
+    keyHandler.setSpace(true);
+  }
 }
 
 public void keyReleased() {
@@ -106,5 +109,8 @@ public void keyReleased() {
   }
   if (key == 's' || key == 'S' || keyCode == DOWN) {
     keyHandler.setDown(false);
+  }
+  if (key == ' ' || keyCode == 32) {
+    keyHandler.setSpace(false);
   }
 }

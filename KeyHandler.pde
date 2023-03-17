@@ -1,13 +1,14 @@
 public class KeyHandler {
-  private boolean left, right, up, down;
+  private boolean left, right, up, down, space;
 
   public KeyHandler() {
     setLeft(false);
     setRight(false);
     setUp(false);
     setDown(false);
+    setSpace(false);
   }
-  
+
   /*********************/
   /* Getters & Setters */
   /*********************/
@@ -26,6 +27,14 @@ public class KeyHandler {
 
   public void setDown(boolean state) {
     this.down = state;
+  }
+
+  public void setSpace(boolean state) {
+    this.space = state;
+  }
+
+  public boolean isSpace() {
+    return this.space;
   }
 
   public boolean isLeft() {

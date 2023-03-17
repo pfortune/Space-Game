@@ -4,6 +4,7 @@ public class Ship {
   private BoundingBox boundingBox;
   private PuffBall[] puffs;
   private KeyHandler keyHandler;
+  private Missile[] missiles;
 
   public Ship(KeyHandler keyhandler) {
     setX(width/2);
@@ -15,6 +16,7 @@ public class Ship {
     boundingBox = new BoundingBox(getX() - (getWidth()/2), getY() - (getHeight()/2), getWidth(), getHeight());
     this.puffs = new PuffBall[0];
     this.keyHandler = keyhandler;
+    this.missiles = new Missile[0];
   }
 
   public void update(float deltaTime) {
@@ -28,6 +30,15 @@ public class Ship {
       } else if (rand > 90) {
         addPuff(getX() + 10, getY() + 30, color(255, 125, 0, 255));
       }
+    }
+    
+    if(keyHandler.isSpace()) {
+      fireMissile();
+    }
+    
+    for(int i = 0; i < missiles.length; i++){
+      Missile m = missiles[i];
+      m.update();
     }
 
     removeExpiredPuffs();
@@ -55,8 +66,20 @@ public class Ship {
       p.update();
       p.display();
     }
+    
+    for (int i = 0; i < missiles.length; i++) {
+      Missile m = missiles[i];
+      m.display();
+    }
 
     System.out.println("Size of the puffs array: " + puffs.length);
+  }
+
+  public void fireMissile() {
+    Missile[] newArray = new Missile[missiles.length + 1];
+    arrayCopy(missiles, newArray);
+    newArray[missiles.length] = new Missile(getX(), getY() - getHeight() / 2);
+    missiles = newArray;
   }
 
   public void addPuff(float x, float y, color startColour) {
