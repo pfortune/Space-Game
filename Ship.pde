@@ -7,6 +7,7 @@ public class Ship {
   private Missile[] missiles;
   private float timeSinceLastFired;
   private int missileCount;
+  private boolean isColliding;
 
   public Ship(KeyHandler keyhandler) {
     setX(width/2);
@@ -15,12 +16,14 @@ public class Ship {
     setHeight(40);
     setSpeed(100);
     setColour(color(122, 122, 255));
+    isColliding(false);
     boundingBox = new BoundingBox(getX() - (getWidth()/2), getY() - (getHeight()/2), getWidth(), getHeight());
     this.puffs = new PuffBall[0];
     this.keyHandler = keyhandler;
     this.missiles = new Missile[0];
     timeSinceLastFired = 0;
     missileCount = 5;
+    
   }
 
   public void update(float deltaTime) {
@@ -224,5 +227,13 @@ public class Ship {
   
   public void addMissile() {
     this.missileCount++;
+  }
+  
+  public boolean isColliding(){
+    return this.isColliding;
+  }
+  
+  public void setColliding(boolean state) {
+    this.isColliding = state;
   }
 }

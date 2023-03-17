@@ -20,13 +20,13 @@ void setup() {
   lastBarrierSpawnTime = -spawnInterval; // spawns barrier immediately
   keyHandler = new KeyHandler();
   ship = new Ship(keyHandler);
-  
+
   String playerName = JOptionPane.showInputDialog(null, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
   if (playerName == null || playerName.trim().isEmpty()) {
     playerName = "Player1";
   }
-  
-  player = new Player(playerName, 3);
+
+  player = new Player(playerName.trim(), 3);
 }
 
 void draw() {
@@ -49,10 +49,16 @@ void draw() {
     b.display();
 
     if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-      println("collision");
-      player.loseLife();
+      if (!ship.isColliding()) {
+        println("collision");
+        player.loseLife();
+        ship.isColliding(true);
+      }
+    } else {
+      ship.isColliding(false);
     }
   }
+
 
   //System.out.println("Size of the barriers array: " + barriers.length);
 
@@ -61,7 +67,7 @@ void draw() {
   ship.display();
 
   removeBarriers();
-  
+
   //fill(255,0,0);
   textSize(20);
   textAlign(CENTER, CENTER);
