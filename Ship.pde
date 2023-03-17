@@ -3,50 +3,33 @@ public class Ship {
   private color colour;
   private BoundingBox boundingBox;
   private PuffBall[] puffs;
+  private KeyHandler keyHandler;
 
-  public Ship() {
+  public Ship(KeyHandler keyhandler) {
     setX(width/2);
     setY(height - 45);
     setW(30);
     setH(40);
-    setSpeed(3);
+    setSpeed(100);
     setColour(color(122, 122, 255));
     boundingBox = new BoundingBox(getX() - (getW()/2), getY() - (getH()/2), getW(), getH());
     this.puffs = new PuffBall[0];
+    this.keyHandler = keyhandler;
   }
 
   public void update(float deltaTime) {
-    if (abs(getX()-x) <= getSpeed() * deltaTime) {
-      setX(x);
-      boundingBox.setX(getX() - (getW()/2));
-      return;
-    }
-
-    if ((x - getX()) > 0) {
-      setX(getX() + getSpeed() * deltaTime);
-    } else {
-      setX(getX() - getSpeed() * deltaTime);
-    }
-
     boundingBox.setX(getX() - (getW()/2));
 
-    float rand = random(0, 100);
+    if (this.keyHandler.isLeft() || this.keyHandler.isRight() || this.keyHandler.isUp() || this.keyHandler.isDown()) {
+      float rand = random(0, 100);
 
-    if (rand > 95) {
-      addPuff(getX() - 10, getY() + 30, color(255, 0, 0, 255));
-    } else if (rand > 90) {
-      addPuff(getX() + 10, getY() + 30, color(255, 125, 0, 255));
+      if (rand > 95) {
+        addPuff(getX() - 10, getY() + 30, color(255, 0, 0, 255));
+      } else if (rand > 90) {
+        addPuff(getX() + 10, getY() + 30, color(255, 125, 0, 255));
+      }
     }
 
-    for (int i = 0; i < puffs.length; i++) {
-      PuffBall p = puffs[i];
-      float livedFor = millis() - p.spawnedAt;
-      float percentComplete = livedFor / p.getDuration();
-
-      p.setCurrentColour(lerpColor(p.getStartColour(), p.getEndColour(), percentComplete));
-      p.setCurrentRadius(lerp(p.getStartRadius(), p.getEndRadius(), percentComplete));
-    }
-    
     removeExpiredPuffs();
   }
 
@@ -69,6 +52,7 @@ public class Ship {
 
     for (int i = 0; i < puffs.length; i++) {
       PuffBall p = puffs[i];
+      p.update();
       p.display();
     }
 
@@ -103,6 +87,25 @@ public class Ship {
     }
     return newArray;
   }
+
+  public void move(float deltaTime) {
+    if (keyHandler.isLeft() && getX() - (getW() / 2) > 0) {
+      setX(getX() - (getSpeed() * deltaTime));
+    }
+
+    if (keyHandler.isRight() && getX() + (getW() / 2) < width) {
+      setX(getX() + (getSpeed() * deltaTime));
+    }
+
+    if (keyHandler.isUp() && getY() - (getH() / 2) > 0) {
+      setY(getY() - (getSpeed() * deltaTime));
+    }
+
+    if (keyHandler.isDown() && getY() + (getH() / 2) < height) {
+      setY(getY() + (getSpeed() * deltaTime));
+    }
+  }
+
 
   /*********************/
   /* Getters & Setters */

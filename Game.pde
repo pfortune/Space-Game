@@ -15,13 +15,10 @@ void setup() {
   lastBarrierSpawnTime = -spawnInterval; // spawns barrier immediately
   keyHandler = new KeyHandler();
   ship = new Ship(keyHandler);
-  
 }
 
 void draw() {
   background(0);
-  float xShipPos = ship.getX();
-  float yShipPos = ship.getY();
   float deltaTime = (millis() - lastDrawTime)/1000;
   lastDrawTime = millis();
 
@@ -38,21 +35,13 @@ void draw() {
     Barrier b = barriers[i];
     b.update(deltaTime);
     b.display();
-
+   
     if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
       println("collision");
     }
   }
 
   System.out.println("Size of the barriers array: " + barriers.length);
-
-  if (keyHandler.isUp()) {
-    ship.setY(yShipPos - (ship.getSpeed() * deltaTime));
-  }
-
-  if (keyHandler.isDown()) {
-    ship.setY(yShipPos + (ship.getSpeed() * deltaTime));
-  }
 
   ship.move(deltaTime);
   ship.update(deltaTime);

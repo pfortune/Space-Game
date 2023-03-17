@@ -29,16 +29,12 @@ public class PuffBall {
   }
 
   public void display() {
-    if (isExpired()) {
+    if ((millis() - spawnedAt) >= duration) {
       return;
     }
 
     fill(getCurrentColour());
     circle(getX(), getY(), getCurrentRadius());
-  }
-
-  public boolean isExpired() {
-    return (millis() - spawnedAt) >= duration;
   }
 
   /*********************/
