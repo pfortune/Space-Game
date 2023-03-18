@@ -4,7 +4,7 @@ public class KeyHandler {
 
   // Constructor for KeyHandler class
   public KeyHandler() {
-    // Initialize all key states to false (not pressed)
+    // Initialise all key states to false (not pressed)
     setLeft(false);
     setRight(false);
     setUp(false);
