@@ -73,9 +73,6 @@ void draw() {
       println("collision");
       player.loseLife(); // Reduce player's lives
       ship.setColliding(true); // Set the ship's collision status to true
-      if (player.getLives() == 0) {
-        endGame();
-      }
     }
   } else {
     ship.setColliding(false); // Set the ship's collision status to false
@@ -85,21 +82,34 @@ void draw() {
   ship.update(deltaTime); // Update the ship's state
   ship.display(); // Draw the ship
 
-  removeBarriers(); // Remove barriers that are no longer needed
-
+  //scoreboard.update();
+  //scoreboard.display();
+  
   displayStats();
+
+  if (player.getLives() == 0) {
+    resetGame();
+  }
 }
 
 public void endGame() {
-  fill(255,125,125);
+  background(0);
+  fill(255, 125, 125);
   textSize(50);
   textAlign(CENTER, CENTER);
   text("GAME OVER", width/2, height/2);
 }
 
+public void resetGame() {
+  barriers = new Barrier[0];
+  player.setLives(3);
+  ship.setX();
+  //ship.setMissile(5);
+}
+
 public void displayStats() {
   // Display game information (missiles, player name, score, and lives)
-  fill(255,125,125);
+  fill(255, 125, 125);
   textSize(20);
   textAlign(CENTER, CENTER);
   text("Missiles: " + ship.getMissileCount(), width / 2 - 250, 30);

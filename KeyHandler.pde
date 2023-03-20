@@ -1,6 +1,6 @@
 public class KeyHandler {
   // Declare instance variables for key states
-  private boolean left, right, up, down, space;
+  private boolean left, right, up, down, space, escape;
 
   // Constructor for KeyHandler class
   public KeyHandler() {
@@ -10,6 +10,7 @@ public class KeyHandler {
     setUp(false);
     setDown(false);
     setSpace(false);
+    setEscape(false);
   }
 
   /*********************/
@@ -18,6 +19,10 @@ public class KeyHandler {
 
   public void setLeft(boolean state) {
     this.left = state;
+  }
+  
+  public void setEscape(boolean state) {
+    this.escape = state;
   }
 
   public void setRight(boolean state) {
@@ -54,5 +59,9 @@ public class KeyHandler {
 
   public boolean isDown() {
     return this.down;
+  }
+  
+  public boolean isEscape() {
+    return this.escape;
   }
 }
