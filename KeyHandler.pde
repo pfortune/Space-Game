@@ -1,6 +1,6 @@
 public class KeyHandler {
   // Declare instance variables for key states
-  private boolean left, right, up, down, space, escape;
+  private boolean left, right, up, down, space, paused;
 
   // Constructor for KeyHandler class
   public KeyHandler() {
@@ -10,7 +10,48 @@ public class KeyHandler {
     setUp(false);
     setDown(false);
     setSpace(false);
-    setEscape(false);
+    setPaused(false);
+  }
+
+  public void handleDown(char keyName, int keyID) {
+    // Check for each key and update the keyHandler accordingly
+    if (keyName == 'a' || keyName == 'A' || keyID == LEFT) {
+      keyHandler.setLeft(true);
+    }
+    if (keyName == 'd' || keyName == 'D' || keyID == RIGHT) {
+      keyHandler.setRight(true);
+    }
+    if (keyName == 'w' || keyName == 'W' || keyID == UP) {
+      keyHandler.setUp(true);
+    }
+    if (keyName == 's' || keyName == 'S' || keyID == DOWN) {
+      keyHandler.setDown(true);
+    }
+    if (keyName == ' ' || keyID == 32) {
+      keyHandler.setSpace(true);
+    }
+    if (keyID == BACKSPACE) {
+      keyHandler.setPaused(true);
+    }
+  }
+
+  public void handleUp(char keyName, int keyID) {
+    // Check for each key and update the keyHandler accordingly
+    if (keyName == 'a' ||keyName == 'A' || keyID == LEFT) {
+      keyHandler.setLeft(false);
+    }
+    if (keyName == 'd' || keyName == 'D' || keyID == RIGHT) {
+      keyHandler.setRight(false);
+    }
+    if (keyName == 'w' || keyName == 'W' || keyID == UP) {
+      keyHandler.setUp(false);
+    }
+    if (keyName == 's' || keyName == 'S' || keyID == DOWN) {
+      keyHandler.setDown(false);
+    }
+    if (keyName == ' ' || keyID == 32) {
+      keyHandler.setSpace(false);
+    }
   }
 
   /*********************/
@@ -20,9 +61,9 @@ public class KeyHandler {
   public void setLeft(boolean state) {
     this.left = state;
   }
-  
-  public void setEscape(boolean state) {
-    this.escape = state;
+
+  public void setPaused(boolean state) {
+    this.paused = state;
   }
 
   public void setRight(boolean state) {
@@ -61,7 +102,7 @@ public class KeyHandler {
     return this.down;
   }
   
-  public boolean isEscape() {
-    return this.escape;
+  public boolean isPaused() {
+    return this.paused;
   }
 }

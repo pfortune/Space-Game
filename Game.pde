@@ -6,11 +6,13 @@ KeyHandler keyHandler;
 Barrier[] barriers;
 Player player;
 Ship ship;
+Button button;
 
 float barrierHeight;
 float lastBarrierSpawnTime;
 float lastDrawTime;
 int spawnInterval = 30000; // Time between new barriers (milliseconds)
+boolean isPaused = false;
 
 void setup() {
   size(1280, 720); // Set game window sise
@@ -38,54 +40,65 @@ void draw() {
   // Set the background colour to black
   background(0);
 
-  // Calculate the time elapsed since the last draw call
-  float deltaTime = (millis() - lastDrawTime)/1000;
-  lastDrawTime = millis();
-
-  // Spawn a new barrier if it's time to spawn one
-  if (millis() - lastBarrierSpawnTime >= spawnInterval) {
-    addBarrier(new Barrier());
-    lastBarrierSpawnTime = millis();
+  if (keyHandler.isPaused()) {
+    isPaused = !isPaused;
+    keyHandler.setPaused(false);
   }
-
-  // Initialise a flag for checking if the ship is colliding with any barriers
-  boolean isCollidingWithAnyBarrier = false;
-
-  // Loop through all barriers
-  for (int i = 0; i < barriers.length; i++) {
-    if (barriers[i] == null) {
-      continue; // Skip if the barrier is null (removed)
-    }
-
-    Barrier b = barriers[i];
-    b.update(deltaTime); // Update barrier state
-    b.display(); // Draw the barrier
-
-    // Check if the ship is colliding with the current barrier
-    if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-      isCollidingWithAnyBarrier = true;
-    }
-  }
-
-  // If the ship is colliding with any barriers
-  if (isCollidingWithAnyBarrier) {
-    if (!ship.isInCollision()) {
-      println("collision");
-      player.loseLife(); // Reduce player's lives
-      ship.setColliding(true); // Set the ship's collision status to true
-    }
-  } else {
-    ship.setColliding(false); // Set the ship's collision status to false
-  }
-
-  ship.move(deltaTime); // Move the ship
-  ship.update(deltaTime); // Update the ship's state
-  ship.display(); // Draw the ship
-
-  //scoreboard.update();
-  //scoreboard.display();
   
-  displayStats();
+  if(isPaused){
+    showMenu();
+  } else {
+    
+
+    // Calculate the time elapsed since the last draw call
+    float deltaTime = (millis() - lastDrawTime)/1000;
+    lastDrawTime = millis();
+
+    // Spawn a new barrier if it's time to spawn one
+    if (millis() - lastBarrierSpawnTime >= spawnInterval) {
+      addBarrier(new Barrier());
+      lastBarrierSpawnTime = millis();
+    }
+
+    // Initialise a flag for checking if the ship is colliding with any barriers
+    boolean isCollidingWithAnyBarrier = false;
+
+    // Loop through all barriers
+    for (int i = 0; i < barriers.length; i++) {
+      if (barriers[i] == null) {
+        continue; // Skip if the barrier is null (removed)
+      }
+
+      Barrier b = barriers[i];
+      b.update(deltaTime); // Update barrier state
+      b.display(); // Draw the barrier
+
+      // Check if the ship is colliding with the current barrier
+      if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
+        isCollidingWithAnyBarrier = true;
+      }
+    }
+
+    // If the ship is colliding with any barriers
+    if (isCollidingWithAnyBarrier) {
+      if (!ship.isInCollision()) {
+        println("collision");
+        player.loseLife(); // Reduce player's lives
+        ship.setColliding(true); // Set the ship's collision status to true
+      }
+    } else {
+      ship.setColliding(false); // Set the ship's collision status to false
+    }
+
+    ship.move(deltaTime); // Move the ship
+    ship.update(deltaTime); // Update the ship's state
+    ship.display(); // Draw the ship
+
+    //scoreboard.update();
+    //scoreboard.display();
+
+    displayStats();
+  }
 
   if (player.getLives() == 0) {
     resetGame();
@@ -103,8 +116,15 @@ public void endGame() {
 public void resetGame() {
   barriers = new Barrier[0];
   player.setLives(3);
-  ship.setX();
-  //ship.setMissile(5);
+  ship.setX(width/2);
+  ship.setY(height-45);
+  ship.setMissile(5);
+  player.setScore(0);
+  lastBarrierSpawnTime = -spawnInterval;
+}
+
+public void showMenu(){
+  
 }
 
 public void displayStats() {
@@ -164,40 +184,10 @@ private Barrier[] removeFromArray(Barrier[] array, int index) {
 
 // Detect when keys are pressed and update the keyHandler object
 public void keyPressed() {
-  // Check for each key and update the keyHandler accordingly
-  if (key == 'a' || key == 'A' || keyCode == LEFT) {
-    keyHandler.setLeft(true);
-  }
-  if (key == 'd' || key == 'D' || keyCode == RIGHT) {
-    keyHandler.setRight(true);
-  }
-  if (key == 'w' || key == 'W' || keyCode == UP) {
-    keyHandler.setUp(true);
-  }
-  if (key == 's' || key == 'S' || keyCode == DOWN) {
-    keyHandler.setDown(true);
-  }
-  if (key == ' ' || keyCode == 32) {
-    keyHandler.setSpace(true);
-  }
+  keyHandler.handleDown(key, keyCode);
 }
 
 // Detect when keys are released and update the keyHandler object
 public void keyReleased() {
-  // Check for each key and update the keyHandler accordingly
-  if (key == 'a' || key == 'A' || keyCode == LEFT) {
-    keyHandler.setLeft(false);
-  }
-  if (key == 'd' || key == 'D' || keyCode == RIGHT) {
-    keyHandler.setRight(false);
-  }
-  if (key == 'w' || key == 'W' || keyCode == UP) {
-    keyHandler.setUp(false);
-  }
-  if (key == 's' || key == 'S' || keyCode == DOWN) {
-    keyHandler.setDown(false);
-  }
-  if (key == ' ' || keyCode == 32) {
-    keyHandler.setSpace(false);
-  }
+  keyHandler.handleUp(key, keyCode);
 }
