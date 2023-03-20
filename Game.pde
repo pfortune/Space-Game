@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 // Declare objects for the game
 KeyHandler keyHandler;
 Barrier[] barriers;
+Gap[] gap;
 Player player;
 Ship ship;
 Button button;
@@ -20,6 +21,7 @@ void setup() {
   lastDrawTime = millis(); // Save current time in milliseconds
   barrierHeight = 10;
   barriers = new Barrier[0]; // Make an empty array of barriers
+  gap = new Gap[0];
   lastBarrierSpawnTime = -spawnInterval; // Start by spawning a barrier immediately
   keyHandler = new KeyHandler(); // Make a KeyHandler object for keyboard input
   ship = new Ship(keyHandler); // Make a Ship object and give it the keyHandler
@@ -44,12 +46,10 @@ void draw() {
     isPaused = !isPaused;
     keyHandler.setPaused(false);
   }
-  
-  if(isPaused){
+
+  if (isPaused) {
     showMenu();
   } else {
-    
-
     // Calculate the time elapsed since the last draw call
     float deltaTime = (millis() - lastDrawTime)/1000;
     lastDrawTime = millis();
@@ -61,7 +61,8 @@ void draw() {
     }
 
     // Initialise a flag for checking if the ship is colliding with any barriers
-    boolean isCollidingWithAnyBarrier = false;
+    boolean isCollidingWithBarrier = false;
+    boolean isCollidingWithGap = false;
 
     // Loop through all barriers
     for (int i = 0; i < barriers.length; i++) {
@@ -75,19 +76,51 @@ void draw() {
 
       // Check if the ship is colliding with the current barrier
       if (b.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-        isCollidingWithAnyBarrier = true;
+        isCollidingWithBarrier = true;
+      }
+
+
+      for (int j=0; j<ship.getMissiles().length; j++) {
+        Missile m = ship.getMissile(j);
+
+        if (m.getBoundingBox() == null) {
+          continue;
+        }
+
+        if (m.getBoundingBox().hasCollided(b.getBoundingBox())) {
+          b.collided(m.getX(), m.getPayload());
+          addGap(new Gap(m.getX(), b.getY()-5, ship.getWidth()*2, b.getHeight()*2, b.getSpeed()));
+          m.explode();
+        }
+      }
+    }
+
+    for (int i=0; i<gap.length; i++) {
+      if (gap[i] == null) {
+        continue; // Skip if the barrier is null (removed)
+      }
+
+      Gap g = gap[i];
+      g.update(deltaTime);
+      g.display();
+
+      // Check if the ship is colliding with a gap
+      if (g.getBoundingBox().hasCollided(ship.getBoundingBox())) {
+        isCollidingWithGap = true;
       }
     }
 
     // If the ship is colliding with any barriers
-    if (isCollidingWithAnyBarrier) {
+    if (isCollidingWithGap) {
+      ship.setColliding(false); // Set the ship's collision status to false
+    } else if (isCollidingWithBarrier) {
       if (!ship.isInCollision()) {
         println("collision");
         player.loseLife(); // Reduce player's lives
         ship.setColliding(true); // Set the ship's collision status to true
       }
     } else {
-      ship.setColliding(false); // Set the ship's collision status to false
+      ship.setColliding(false);
     }
 
     ship.move(deltaTime); // Move the ship
@@ -101,8 +134,10 @@ void draw() {
   }
 
   if (player.getLives() == 0) {
-    resetGame();
+    endGame();
   }
+
+  removeBarriers();
 }
 
 public void endGame() {
@@ -123,8 +158,7 @@ public void resetGame() {
   lastBarrierSpawnTime = -spawnInterval;
 }
 
-public void showMenu(){
-  
+public void showMenu() {
 }
 
 public void displayStats() {
@@ -148,6 +182,18 @@ public void addBarrier(Barrier b) {
   newArray[barriers.length] = b;
   // Set the new array as the barriers array
   barriers = newArray;
+}
+
+// Add a new gap to a barrier
+public void addGap(Gap g) {
+  // Create a new array with one more element
+  Gap[] newArray = new Gap[gap.length+1];
+  // Copy the old barriers array into the new array
+  arrayCopy(gap, newArray);
+  // Add the new barrier to the end of the new array
+  newArray[gap.length] = g;
+  // Set the new array as the barriers array
+  gap = newArray;
 }
 
 // Remove barriers that are no longer visible on the screen

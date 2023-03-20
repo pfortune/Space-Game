@@ -24,7 +24,7 @@ public class Ship {
     this.keyHandler = keyhandler;
     this.missiles = new Missile[0];
     timeSinceLastFired = 0;
-    missileCount = 5;
+    missileCount = 10;
   }
 
   /**
@@ -59,14 +59,21 @@ public class Ship {
 
     // Update missiles
     for (int i = 0; i < missiles.length; i++) {
-      Missile m = missiles[i];
-      m.update();
+      missiles[i].update();
     }
 
     // Remove expired puffs and missiles
     removeExpiredPuffs();
     removeExpiredMissiles();
   }
+  
+  public void respawn() {
+    setX(width/2);
+    setY(height - 45);
+    boundingBox.setX(getX() - (getWidth()/2));
+    boundingBox.setY(getY() - (getHeight()/2));
+  }
+  
 
   /**
    * Display method for the Ship class.
@@ -101,9 +108,6 @@ public class Ship {
       Missile m = missiles[i];
       m.display();
     }
-    // Print the size of the missiles and puffs arrays
-    System.out.println("Size of the missiles array: " + missiles.length);
-    System.out.println("Size of the puffs array: " + puffs.length);
   }
 
   /**
@@ -111,7 +115,7 @@ public class Ship {
    */
   public void fireMissile() {
     // Check if the missile can be fired
-    if (missileCount > 0 && timeSinceLastFired >= 1) {
+    if (missileCount > 0 && timeSinceLastFired >= 0.5) {
       timeSinceLastFired = 0;
       Missile[] newArray = new Missile[missiles.length + 1];
       arrayCopy(missiles, newArray);
@@ -289,6 +293,18 @@ public class Ship {
 
   public int getMissileCount() {
     return this.missileCount;
+  }
+  
+  public Missile[] getMissiles() {
+    return this.missiles;
+  }
+  
+  public Missile getMissile(int index) {
+    return this.missiles[index];
+  }
+  
+  public void setMissile(int count) {
+    this.missileCount = count;
   }
 
   public void addMissile() {

@@ -1,16 +1,22 @@
 public class Missile {
   // Declare instance variables
-  private float x, y, w, h, speed;
+  private float x, y, w, h, speed, payload;
   private color colour;
   private BoundingBox boundingBox;
+  private PuffBall explosion;
 
   // Constructor for Missile class
   public Missile(float x, float y) {
+    this();
     setX(x);
     setY(y);
-    setWidth(5);
-    setHeight(15);
-    setSpeed(5);
+  }
+
+  public Missile() {
+    setPayload(100);
+    setWidth(payload/20);
+    setHeight(payload/6);
+    setSpeed(max(payload/5, 1));
     setColour(color(255, 0, 155));
     // Create a new BoundingBox for the missile
     this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
@@ -18,23 +24,45 @@ public class Missile {
 
   // Update the missile's position and its BoundingBox
   public void update() {
-    y -= speed;
-    boundingBox.setX(getX());
-    boundingBox.setY(getY());
+    if (explosion == null) {
+      y -= speed;
+      boundingBox.setX(getX());
+      boundingBox.setY(getY());
+    } else {
+      y -= speed/5;
+    }
+  }
+
+  public void explode() {
+    explosion = new PuffBall(750, getPayload()/5, getPayload()*2, getX(), getY(), color(255, 255, 125, 255), color(255, 255, 255, 0));
+    boundingBox = null;
+  }
+
+  public boolean isExpired() {
+    if (explosion == null) {
+      return false;
+    }
+
+    return explosion.isExpired();
   }
 
   // Display the missile on the screen
   public void display() {
-    fill(colour);
-    rect(getX() - (getWidth() / 2), getY() - (getHeight() / 2), getWidth(), getHeight());
+    if (!isExpired()) {
+      fill(colour);
+      rect(getX() - (getWidth() / 2), getY() - (getHeight() / 2), getWidth(), getHeight());
+    } else {
+      explosion.setY(y);
+      explosion.update();
+      explosion.display();
+    }
   }
-
   /*********************/
   /* Getters & Setters */
   /*********************/
 
   public BoundingBox getBoundingBox() {
-    return boundingBox;
+    return this.boundingBox;
   }
 
   public void setX(float x) {
@@ -83,5 +111,13 @@ public class Missile {
 
   public color getColour() {
     return this.colour;
+  }
+
+  public void setPayload(float payload) {
+    this.payload = payload;
+  }
+
+  public float getPayload() {
+    return this.payload;
   }
 }
