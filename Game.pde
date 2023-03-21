@@ -94,9 +94,9 @@ void draw() {
         isCollidingWithBarrier = true;
       }
 
-     /********************************************
-      *   Barrier & Missile Collision Detection  *   
-      ********************************************/
+      /********************************************
+       *   Barrier & Missile Collision Detection  *
+       ********************************************/
       for (int j=0; j<ship.getMissiles().length; j++) {
         Missile m = ship.getMissile(j);
 
@@ -113,7 +113,7 @@ void draw() {
     }
 
     /********************************************
-     *     Gap & Ship Collision Detection       *   
+     *     Gap & Ship Collision Detection       *
      ********************************************/
     for (int k=0; k<gap.length; k++) {
       if (gap[k] == null) {
@@ -151,50 +151,70 @@ void draw() {
     //scoreboard.display();
 
     displayStats();
-  }
 
-  /********************************************
-   *      Aliens and Collision Detection      *   
-   ********************************************/
 
-   // Update and display all aliens
-  for (int i = 0; i < aliens.length; i++) {
-    aliens[i].update(ship);
-    aliens[i].display();
-  }
+    /********************************************
+     *    Aliens/Ship and Collision Detection   *
+     ********************************************/
 
-  // Loop through all missiles
-  for (int i = 0; i < ship.getMissiles().length; i++) {
-    Missile m = ship.getMissile(i);
+    // Update and display all aliens
+    for (int i = 0; i < aliens.length; i++) {
+      aliens[i].update(ship);
+      aliens[i].display();
 
-    if (m.getBoundingBox() == null) {
-      continue;
-    }
-
-    // Check for collision between the current missile and all alien ships
-    for (int j = 0; j < aliens.length; j++) {
-      if (m.getBoundingBox().hasCollided(aliens[j].getBoundingBox())) {
-        //Increase player score
-        player.addScore(2);
-        addPickup(new Pickup(aliens[j].getX(), aliens[j].getY()));
-        m.explode();
-        // Remove the alien ship from the game
-        aliens = removeAlien(aliens, j);
-        break;
+      if (ship.getBoundingBox().hasCollided(aliens[i].getBoundingBox())) {
+        player.loseLife(); // Reduce player's lives
+        ship.respawn();
       }
     }
-  }
 
-  for (int i = 0; i < pickups.length; i++) {
-    pickups[i].update();
-    pickups[i].display();
-  }
+    /********************************************
+     *  Aliens/Missile and Collision Detection  *
+     ********************************************/
+    for (int i = 0; i < ship.getMissiles().length; i++) {
+      Missile m = ship.getMissile(i);
 
-  if (player.getLives() == 0) {
-    endGame();
-  }
+      if (m.getBoundingBox() == null) {
+        continue;
+      }
 
-  removeBarriers();
+      // Check for collision between the current missile and all alien ships
+      for (int j = 0; j < aliens.length; j++) {
+        if (m.getBoundingBox().hasCollided(aliens[j].getBoundingBox())) {
+          //Increase player score
+          player.addScore(2);
+          addPickup(new Pickup(aliens[j].getX(), aliens[j].getY()));
+          m.explode();
+          // Remove the alien ship from the game
+          aliens = removeAlien(aliens, j);
+          break;
+        }
+      }
+    }
+
+    for (int i = 0; i < pickups.length; i++) {
+      pickups[i].update();
+      pickups[i].display();
+    }
+
+    /********************************************
+     *    Ship & Pickup Collision Detection      *
+     ********************************************/
+
+    for (int i = 0; i < pickups.length; i++) {
+      if (ship.getBoundingBox().hasCollided(pickups[i].getBoundingBox())) {
+        ship.increaseMissileCount(5);
+
+        pickups = removePickup(pickups, i);
+      }
+    }
+
+    if (player.getLives() == 0) {
+      endGame();
+    }
+
+    removeBarriers();
+  }
 }
 
 public void endGame() {
@@ -207,6 +227,8 @@ public void endGame() {
 
 public void resetGame() {
   barriers = new Barrier[0];
+  aliens = new Enemy[0];
+  gap = new Gap[0];
   player.setLives(3);
   ship.setX(width/2);
   ship.setY(height-45);
@@ -283,6 +305,18 @@ public Enemy[] removeAlien(Enemy[] aliens, int index) {
   for (int i = 0, j = 0; i < aliens.length; i++) {
     if (i != index) {
       newArray[j++] = aliens[i];
+    }
+  }
+
+  return newArray;
+}
+
+public Pickup[] removePickup(Pickup[] pickups, int index) {
+  Pickup[] newArray = new Pickup[pickups.length - 1];
+
+  for (int i = 0, j = 0; i < aliens.length; i++) {
+    if (i != index) {
+      newArray[j++] = pickups[i];
     }
   }
 

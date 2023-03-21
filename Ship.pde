@@ -305,6 +305,10 @@ public class Ship {
   public void setMissile(int count) {
     this.missileCount = count;
   }
+  
+  public void increaseMissileCount(int count) {
+    this.missileCount += count;
+  }
 
   public void addMissile() {
     this.missileCount++;
