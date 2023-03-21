@@ -181,7 +181,6 @@ public class Ship {
     for (int i = 0; i < puffs.length; i++) {
       PuffBall p = puffs[i];
       if ((millis() - p.spawnedAt) >= p.duration) {
-        System.out.println("Removing expired puff at index " + i);
         puffs = removeFromArray(puffs, i);
         i--; // Decrement index to account for removed item
       }

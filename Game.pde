@@ -62,7 +62,8 @@ void draw() {
 
     // Initialise a flag for checking if the ship is colliding with any barriers
     boolean isCollidingWithBarrier = false;
-    boolean isCollidingWithGap = false;
+    // Initialise a flag for checking if the ship is going through any gaps
+    boolean isGoingThroughGap = false;
 
     // Loop through all barriers
     for (int i = 0; i < barriers.length; i++) {
@@ -89,7 +90,7 @@ void draw() {
 
         if (m.getBoundingBox().hasCollided(b.getBoundingBox())) {
           b.collided(m.getX(), m.getPayload());
-          addGap(new Gap(m.getX(), b.getY()-5, ship.getWidth()*2, b.getHeight()*2, b.getSpeed()));
+          addGap(new Gap(m.getX()-ship.getWidth(), b.getY()-5, ship.getWidth()*2, b.getHeight()*2, b.getSpeed()));
           m.explode();
         }
       }
@@ -107,12 +108,12 @@ void draw() {
 
       // Check if the ship is colliding with a gap
       if (g.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-        isCollidingWithGap = true;
+        isGoingThroughGap = true;
       }
     }
 
     // If the ship is colliding with any barriers
-    if (isCollidingWithGap) {
+    if (isGoingThroughGap) {
       ship.setColliding(false); // Set the ship's collision status to false
     } else if (isCollidingWithBarrier) {
       if (!ship.isInCollision()) {
