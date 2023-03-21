@@ -1,10 +1,10 @@
 class Pickup {
   float x, y, size;
 
-  public Pickup(float x, float y, float size) {
+  public Pickup(float x, float y) {
     setX(x);
     setY(y);
-    setSize(size);
+    setSize(1);
   }
   
   public void update(){

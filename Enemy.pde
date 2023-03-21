@@ -1,9 +1,9 @@
 class Enemy {
 
   private float x, y, speed;
-  //private Missile[] missiles;
+  private Missile[] missiles;
+  private float timeSinceLastFired;
   private BoundingBox boundingBox;
-  //private PuffBall[] puffs;
 
   public Enemy(float x, float y, float speed) {
     setX(x);
@@ -67,5 +67,34 @@ class Enemy {
 
   public float getY() {
     return this.y;
+  }
+
+  public Missile[] getMissiles() {
+    return this.missiles;
+  }
+
+  public Missile getMissile(int index) {
+    return this.missiles[index];
+  }
+
+  public void fireMissile() {
+    // Check if the missile can be fired
+    if (timeSinceLastFired >= 2) {
+      timeSinceLastFired = 0;
+      Missile[] newArray = new Missile[missiles.length + 1];
+      arrayCopy(missiles, newArray);
+      newArray[missiles.length] = new Missile(getX(), getY() + 20);
+      missiles = newArray;
+    }
+  }
+
+  public void removeMissile(int index) {
+    Missile[] newArray = new Missile[missiles.length - 1];
+    for (int i = 0, j = 0; i < missiles.length; i++) {
+      if (i != index) {
+        newArray[j++] = missiles[i];
+      }
+    }
+    missiles = newArray;
   }
 }
