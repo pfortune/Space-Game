@@ -16,7 +16,6 @@ public class Barrier {
     setColour(colour);
     // Initialise the bounding box
     this.boundingBox = new BoundingBox(x, y, w, h);
-    
   }
 
   // Constructor with speed parameter

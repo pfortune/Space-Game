@@ -13,7 +13,7 @@ public class Missile {
   }
 
   public Missile() {
-    setPayload(100);
+    setPayload(50);
     setWidth(payload/10);
     setHeight(payload/3);
     setSpeed(payload/10);

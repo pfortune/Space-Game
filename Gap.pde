@@ -12,7 +12,7 @@ public class Gap {
     setHeight(h);
     setSpeed(speed);
     // Initialise the bounding box
-    this.boundingBox = new BoundingBox(getX()+(getWidth()/2), getY(), 2, getHeight());
+    this.boundingBox = new BoundingBox(getX()+(getWidth()/2), getY(), 0, getHeight());
   }
 
   // Constructor with speed parameter
@@ -30,7 +30,7 @@ public class Gap {
     setWidth(200);
     setSpeed(20);
     // Initialise the bounding box
-    this.boundingBox = new BoundingBox(getX()+(getWidth()/2), getY(), 2, getHeight());
+    this.boundingBox = new BoundingBox(getX()+(getWidth()/2), getY(), 0, getHeight());
   }
 
   // Update the gap's position based on its speed and deltaTime
