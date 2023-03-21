@@ -8,10 +8,12 @@ Gap[] gap;
 Player player;
 Ship ship;
 Button button;
-Enemy alien;
+Enemy[] aliens;
 
 float barrierHeight;
 float lastBarrierSpawnTime;
+float lastAlienSpawnTime;
+float alienSpawnInterval = 5000;
 float lastDrawTime;
 int spawnInterval = 30000; // Time between new barriers (milliseconds)
 boolean isPaused = false;
@@ -26,6 +28,7 @@ void setup() {
   lastBarrierSpawnTime = -spawnInterval; // Start by spawning a barrier immediately
   keyHandler = new KeyHandler(); // Make a KeyHandler object for keyboard input
   ship = new Ship(keyHandler); // Make a Ship object and give it the keyHandler
+  aliens = new Enemy[0];
 
   // Ask the player for their name
   String playerName = JOptionPane.showInputDialog(null, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
@@ -36,7 +39,6 @@ void setup() {
 
   // Make a Player object with the name and 3 lives
   player = new Player(playerName.trim(), 3);
-  alien = new Enemy(200, 200, 2);
 }
 
 
@@ -60,6 +62,14 @@ void draw() {
     if (millis() - lastBarrierSpawnTime >= spawnInterval) {
       addBarrier(new Barrier());
       lastBarrierSpawnTime = millis();
+    }
+
+    // Spawn a new alien if it's time to spawn one
+    if (millis() - lastAlienSpawnTime >= alienSpawnInterval) {
+      float x = random(20, width - 20);
+      Enemy aliens = new Enemy(x, 0, 2);
+      addAlien(aliens);
+      lastAlienSpawnTime = millis();
     }
 
     // Initialise a flag for checking if the ship is colliding with any barriers
@@ -138,28 +148,33 @@ void draw() {
   }
 
 
-  alien.update(ship);
-  alien.display();
-
-  if (alien.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-    // Handle collision here (e.g., reduce player's lives, end the game, etc.)
-    println("Spaceship collided with alien ship!");
+  // Update and display all aliens
+  for (int i = 0; i < aliens.length; i++) {
+    aliens[i].update(ship);
+    aliens[i].display();
   }
 
+
+
+
+  // Loop through all missiles
   for (int i = 0; i < ship.getMissiles().length; i++) {
     Missile m = ship.getMissile(i);
 
     if (m.getBoundingBox() == null) {
-      continue; // Skip if the missile has no bounding box (e.g., it has exploded)
+      continue;
     }
 
-    // Check for collision between the current missile and the alien ship
-    if (m.getBoundingBox().hasCollided(alien.getBoundingBox())) {
-      // Handle collision here (e.g., reduce alien's health, destroy the missile, etc.)
-      println("Missile collided with alien ship!");
-      m.explode(); // Destroy the missile
+    // Check for collision between the current missile and all alien ships
+    for (int j = 0; j < aliens.length; j++) {
+      if (m.getBoundingBox().hasCollided(aliens[j].getBoundingBox())) {
+        // Remove the alien ship from the game
+        aliens = removeAlienAtIndex(aliens, j);
+        break;
+      }
     }
   }
+
 
   if (player.getLives() == 0) {
     endGame();
@@ -216,13 +231,38 @@ public void addBarrier(Barrier b) {
 public void addGap(Gap g) {
   // Create a new array with one more element
   Gap[] newArray = new Gap[gap.length+1];
-  // Copy the old barriers array into the new array
+  // Copy the old gap array into the new array
   arrayCopy(gap, newArray);
-  // Add the new barrier to the end of the new array
+  // Add the new gap to the end of the new array
   newArray[gap.length] = g;
-  // Set the new array as the barriers array
+  // Set the new array as the gaps array
   gap = newArray;
 }
+
+// Add a new alien
+public void addAlien(Enemy e) {
+  // Create a new array with one more element
+  Enemy[] newArray = new Enemy[aliens.length+1];
+  // Copy the old enemies array into the new array
+  arrayCopy(aliens, newArray);
+  // Add the new enemy to the end of the new array
+  newArray[aliens.length] = e;
+  // Set the new array as the enemies array
+  aliens = newArray;
+}
+
+public Enemy[] removeAlienAtIndex(Enemy[] aliens, int index) {
+  Enemy[] newArray = new Enemy[aliens.length - 1];
+
+  for (int i = 0, j = 0; i < aliens.length; i++) {
+    if (i != index) {
+      newArray[j++] = aliens[i];
+    }
+  }
+
+  return newArray;
+}
+
 
 // Remove barriers that are no longer visible on the screen
 private void removeBarriers() {
