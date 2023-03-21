@@ -8,6 +8,7 @@ Gap[] gap;
 Player player;
 Ship ship;
 Button button;
+Enemy alien;
 
 float barrierHeight;
 float lastBarrierSpawnTime;
@@ -35,6 +36,7 @@ void setup() {
 
   // Make a Player object with the name and 3 lives
   player = new Player(playerName.trim(), 3);
+  alien = new Enemy(200, 200, 2);
 }
 
 
@@ -97,12 +99,12 @@ void draw() {
     }
 
     // Checking if the ship has collided with a gap
-    for (int i=0; i<gap.length; i++) {
-      if (gap[i] == null) {
+    for (int k=0; k<gap.length; k++) {
+      if (gap[k] == null) {
         continue; // Skip if the barrier is null (removed)
       }
 
-      Gap g = gap[i];
+      Gap g = gap[k];
       g.update(deltaTime);
       g.display();
 
@@ -140,6 +142,13 @@ void draw() {
   }
 
   removeBarriers();
+  alien.update(ship);
+  alien.display();
+  
+  if (alien.getBoundingBox().hasCollided(ship.getBoundingBox())) {
+    // Handle collision here (e.g., reduce player's lives, end the game, etc.)
+    println("Spaceship collided with alien ship!");
+  }
 }
 
 public void endGame() {
