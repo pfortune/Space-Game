@@ -24,7 +24,7 @@ public class Ship {
     this.keyHandler = keyhandler;
     this.missiles = new Missile[0];
     timeSinceLastFired = 0;
-    missileCount = 10;
+    setMissile(10);
   }
 
   /**
