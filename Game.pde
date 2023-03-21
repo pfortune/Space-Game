@@ -95,6 +95,7 @@ void draw() {
       }
     }
 
+    // Checking if the ship has collided with a gap
     for (int i=0; i<gap.length; i++) {
       if (gap[i] == null) {
         continue; // Skip if the barrier is null (removed)
@@ -115,8 +116,8 @@ void draw() {
       ship.setColliding(false); // Set the ship's collision status to false
     } else if (isCollidingWithBarrier) {
       if (!ship.isInCollision()) {
-        println("collision");
         player.loseLife(); // Reduce player's lives
+        ship.respawn();
         ship.setColliding(true); // Set the ship's collision status to true
       }
     } else {
@@ -153,7 +154,7 @@ public void resetGame() {
   player.setLives(3);
   ship.setX(width/2);
   ship.setY(height-45);
-  ship.setMissile(5);
+  ship.setMissile(10);
   player.setScore(0);
   lastBarrierSpawnTime = -spawnInterval;
 }
@@ -203,8 +204,6 @@ private void removeBarriers() {
     Barrier b = barriers[i];
     // If the barrier's Y position is greater than or equal to the screen height
     if (b.getY() >= height) {
-      // Print the index of the barrier that's no longer visible
-      System.out.println("Barriers no longer visible on screen: " + i);
       // Remove the barrier from the barriers array
       barriers = removeFromArray(barriers, i);
       // Decrement the index to account for the removed item

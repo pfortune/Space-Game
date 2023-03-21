@@ -14,9 +14,9 @@ public class Missile {
 
   public Missile() {
     setPayload(100);
-    setWidth(payload/20);
-    setHeight(payload/6);
-    setSpeed(max(payload/5, 1));
+    setWidth(payload/10);
+    setHeight(payload/3);
+    setSpeed(payload/10);
     setColour(color(255, 0, 155));
     // Create a new BoundingBox for the missile
     this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
