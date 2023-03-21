@@ -53,6 +53,10 @@ public class KeyHandler {
       keyHandler.setSpace(false);
     }
   }
+  
+  public void mouseClicked() {
+    
+  }
 
   /*********************/
   /* Getters & Setters */
