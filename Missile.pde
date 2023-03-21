@@ -48,7 +48,7 @@ public class Missile {
 
   // Display the missile on the screen
   public void display() {
-    if (!isExpired()) {
+    if (explosion == null) {
       fill(colour);
       rect(getX() - (getWidth() / 2), getY() - (getHeight() / 2), getWidth(), getHeight());
     } else {
