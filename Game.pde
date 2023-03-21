@@ -137,18 +137,35 @@ void draw() {
     displayStats();
   }
 
+
+  alien.update(ship);
+  alien.display();
+
+  if (alien.getBoundingBox().hasCollided(ship.getBoundingBox())) {
+    // Handle collision here (e.g., reduce player's lives, end the game, etc.)
+    println("Spaceship collided with alien ship!");
+  }
+
+  for (int i = 0; i < ship.getMissiles().length; i++) {
+    Missile m = ship.getMissile(i);
+
+    if (m.getBoundingBox() == null) {
+      continue; // Skip if the missile has no bounding box (e.g., it has exploded)
+    }
+
+    // Check for collision between the current missile and the alien ship
+    if (m.getBoundingBox().hasCollided(alien.getBoundingBox())) {
+      // Handle collision here (e.g., reduce alien's health, destroy the missile, etc.)
+      println("Missile collided with alien ship!");
+      m.explode(); // Destroy the missile
+    }
+  }
+
   if (player.getLives() == 0) {
     endGame();
   }
 
   removeBarriers();
-  alien.update(ship);
-  alien.display();
-  
-  if (alien.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-    // Handle collision here (e.g., reduce player's lives, end the game, etc.)
-    println("Spaceship collided with alien ship!");
-  }
 }
 
 public void endGame() {
