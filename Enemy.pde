@@ -2,36 +2,70 @@ class Enemy {
 
   private float x, y, speed;
   private Missile[] missiles;
-  private float timeSinceLastFired;
+  private float timeLastFired;
+  private float reloadTime;
   private BoundingBox boundingBox;
+  private boolean isDead;
+  private Explosion explosion;
 
   public Enemy(float x, float y, float speed) {
     setX(x);
     setY(y);
     setSpeed(speed);
     boundingBox = new BoundingBox(getX() - 20, getY() - 40, 40, 40);
+    setDead(false);
+    reloadTime = 2000;
+    missiles = new Missile[0];
   }
 
   public void update(Ship ship) {
-    float dx = ship.getX() - getX();
-    float dy = ship.getY() - getY();
-    float distance = sqrt(dx * dx + dy * dy);
+    for (int i = 0; i < missiles.length; i++) {
+      missiles[i].update();
+      
+      if (missiles[i].readyForCleanup()) {
+        //System.out.println("Removing expired missile at index " + i);
+        removeMissile(i);
+        i--; // Decrement index to account for removed item
+      }
+    }
 
-    // Normalise the direction vector
-    float directionX = dx / distance;
-    float directionY = dy / distance;
+    if(explosion != null){
+      explosion.update();
+    }
+
+    if (isDead()) {
+      return;
+    }
+
+    if (millis() - timeLastFired >= reloadTime) {
+      fireMissile(ship);
+      timeLastFired = millis();
+    }
+
+    Vector2 dir = new Vector2();
+    dir.normalizeFrom(getX(), getY(), ship.getX(), ship.getY());
 
     // Update the enemy's position
-    x += directionX * speed;
-    y += directionY * speed;
+    x += dir.x * speed;
+    y += dir.y * speed;
 
     // Update the enemy's bounding box
     boundingBox.setX(getX() - 20);
     boundingBox.setY(getY() - 40);
   }
 
-
   public void display() {
+    for (int i = 0; i < missiles.length; i++) {
+      missiles[i].display();
+    }
+
+    if(explosion != null){
+      explosion.display();
+    }
+
+    if (isDead()) {
+      return;
+    }
     // Main body (triangle)
     fill(200, 30, 30);
     triangle(getX(), getY(), getX() - 20, getY() - 40, getX() + 20, getY() - 40);
@@ -39,6 +73,22 @@ class Enemy {
     // Cabin (rectangle)
     fill(100, 100, 100);
     rect(getX() - 5, getY() - 30, 10, 10);
+  }
+
+  public boolean readyForCleanup() {
+    if (!isDead()) {
+      return false;
+    }
+
+    if (missiles != null && missiles.length > 0) {
+      return false;
+    }
+    
+    if(!explosion.completed()){
+      return false;
+    }
+
+    return true;
   }
 
   public BoundingBox getBoundingBox() {
@@ -77,15 +127,14 @@ class Enemy {
     return this.missiles[index];
   }
 
-  public void fireMissile() {
+  public void fireMissile(Ship ship) {
     // Check if the missile can be fired
-    if (timeSinceLastFired >= 2) {
-      timeSinceLastFired = 0;
-      Missile[] newArray = new Missile[missiles.length + 1];
-      arrayCopy(missiles, newArray);
-      newArray[missiles.length] = new Missile(getX(), getY() + 20);
-      missiles = newArray;
-    }
+    Missile[] newArray = new Missile[missiles.length + 1];
+    arrayCopy(missiles, newArray);
+    Vector2 direction = new Vector2();
+    direction.normalizeFrom(getX(), getY(), ship.getX(), ship.getY());
+    newArray[missiles.length] = new Missile(getX(), getY() + 20, direction);
+    missiles = newArray;
   }
 
   public void removeMissile(int index) {
@@ -96,5 +145,16 @@ class Enemy {
       }
     }
     missiles = newArray;
+  }
+
+  public void setDead(boolean state) {
+    this.isDead = state;
+    if(state == true) {
+       this.explosion = new Explosion(getX(), getY(), 150); 
+    }
+  }
+
+  public boolean isDead() {
+    return this.isDead;
   }
 }

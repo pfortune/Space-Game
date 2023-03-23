@@ -15,6 +15,21 @@ class Button {
     setClicked(false);
   }
 
+  public void display() {
+    fill(colour);
+    rect(x, y, w, h);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text(text, x + w / 2, y + h / 2);
+  }
+
+  public boolean handleClick(float x, float y) {
+    if (x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h) {
+      return true;
+    }
+    return false;
+  }
+
   public void setX(float x) {
     this.x = x;
   }

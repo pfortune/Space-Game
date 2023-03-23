@@ -4,6 +4,7 @@ public class Ship {
   private color colour;
   private BoundingBox boundingBox;
   private PuffBall[] puffs;
+  private Explosion explosion;
   private KeyHandler keyHandler;
   private Missile[] missiles;
   private float timeSinceLastFired;
@@ -33,6 +34,12 @@ public class Ship {
    * This method updates the ship's position, bounding box, missiles, and puffballs based on user input and time elapsed.
    */
   public void update(float deltaTime) {
+    if(this.explosion != null){
+      this.explosion.update();
+      if(this.explosion.completed()){
+        this.explosion = null;
+      }
+    }
     // Update the bounding box position
     boundingBox.setX(getX() - (getWidth()/2));
     boundingBox.setY(getY() - (getHeight()/2));
@@ -68,6 +75,7 @@ public class Ship {
   }
   
   public void respawn() {
+    explosion = new Explosion(getX(), getY(), int(getHeight()*5));
     setX(width/2);
     setY(height - 45);
     boundingBox.setX(getX() - (getWidth()/2));
@@ -80,6 +88,9 @@ public class Ship {
    * This method draws the ship, its rockets, puffballs, and missiles on the screen.
    */
   public void display() {
+    if(this.explosion != null){
+      this.explosion.display();
+    }
     // Ship body
     fill(colour);
     triangle(getX() - getWidth()/2, getY() + getHeight()/2, getX(), getY() - getHeight()/2, getX() + getWidth()/2, getY() + getHeight()/2);
@@ -108,6 +119,8 @@ public class Ship {
       Missile m = missiles[i];
       m.display();
     }
+    
+    getBoundingBox().display();
   }
 
   /**
@@ -119,7 +132,7 @@ public class Ship {
       timeSinceLastFired = 0;
       Missile[] newArray = new Missile[missiles.length + 1];
       arrayCopy(missiles, newArray);
-      newArray[missiles.length] = new Missile(getX(), getY() - getHeight() / 2);
+      newArray[missiles.length] = new Missile(getX(), getY() - getHeight() / 2, new Vector2(0, -1));
       missiles = newArray;
       missileCount--;
     }
@@ -132,11 +145,14 @@ public class Ship {
    *             color startColour - The starting colour of the puffball.
    */
   public void addPuff(float x, float y, color startColour) {
-    // Create a new array with one more element and copy the elements from the original array
+    addPuff(new PuffBall(x, y, startColour));
+  }
+  
+  public void addPuff(PuffBall puff){
     PuffBall[] newArray = new PuffBall[puffs.length + 1];
     arrayCopy(puffs, newArray);
-    newArray[puffs.length] = new PuffBall(x, y, startColour);
-    puffs = newArray;
+    newArray[puffs.length] = puff;
+    puffs = newArray; 
   }
 
   /**
@@ -146,8 +162,8 @@ public class Ship {
     // Iterate through the missiles array and remove expired missiles
     for (int i = 0; i < missiles.length; i++) {
       Missile m = missiles[i];
-      if (m.getY() < 0) {
-        System.out.println("Removing expired missile at index " + i);
+      if (m.readyForCleanup()) {
+        //System.out.println("Removing expired missile at index " + i);
         missiles = removeFromArray(missiles, i);
         i--; // Decrement index to account for removed item
       }

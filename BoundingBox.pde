@@ -1,14 +1,23 @@
 public class BoundingBox {
   // Declare instance variables for position and size
   private float x, y, w, h;
-
+  private boolean debugging=false;
+  
   // Constructor with all parameters
   public BoundingBox(float x, float y, float w, float h) {
+    
     // Set the instance variables using the provided values
     setX(x);
     setY(y);
     setWidth(w);
     setHeight(h);
+  }
+
+  public void display(){
+    if(this.debugging){
+       fill(255,0,0);
+       rect(getX(), getY(), getWidth(), getHeight());
+    }
   }
 
   // Check if this bounding box has collided with another bounding box
@@ -20,6 +29,19 @@ public class BoundingBox {
 
     // Return true if the bounding boxes overlap in both the x-axis and y-axis
     return xOverlap && yOverlap;
+  }
+  
+  public boolean containsOnX(BoundingBox other) {
+    //println("("+this.getX()+" < "+other.getX()+" && ("+other.getX()+" + "+other.getWidth()+") < ("+this.getX()+" + "+this.getWidth()+"));");
+    return (this.getX() < other.getX() && (other.getX() + other.getWidth()) < (this.getX() + this.getWidth()));
+  }
+  
+  public boolean containsOnY(BoundingBox other) {
+    return (this.getY() < other.getY() && (other.getY() + other.getHeight()) < (this.getY() + this.getHeight()));
+  }
+  
+  public boolean contains(BoundingBox other) {
+    return this.containsOnX(other) && this.containsOnY(other);
   }
 
   /*********************/

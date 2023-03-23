@@ -2,14 +2,20 @@ public class Missile {
   // Declare instance variables
   private float x, y, w, h, speed, payload;
   private color colour;
+  private int lifetime;
+  private int timeSpawned;
   private BoundingBox boundingBox;
   private PuffBall explosion;
+  private Vector2 direction;
 
   // Constructor for Missile class
-  public Missile(float x, float y) {
+  public Missile(float x, float y, Vector2 dir) {
     this();
     setX(x);
     setY(y);
+    this.direction = dir;
+    this.lifetime = 5000;
+    this.timeSpawned = millis();
   }
 
   public Missile() {
@@ -25,12 +31,25 @@ public class Missile {
   // Update the missile's position and its BoundingBox
   public void update() {
     if (explosion == null) {
-      y -= speed;
+      setX(getX() + direction.x * speed);
+      setY(getY() + direction.y * speed);
       boundingBox.setX(getX());
       boundingBox.setY(getY());
     } else {
       y -= speed/5;
     }
+  }
+  
+  public boolean readyForCleanup(){
+    if(millis() - timeSpawned >= lifetime){
+      return true;
+    }
+    
+    if(explosion != null && explosion.isExpired()) {
+      return true;
+    }
+    
+    return false;
   }
 
   public void explode() {

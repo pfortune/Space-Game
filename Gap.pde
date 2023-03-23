@@ -1,24 +1,18 @@
-public class Gap {
+public class Gap { //<>//
   // Declare instance variables for position, size, speed, color, and bounding box
-  private float x, y, w, h, speed;
+  private float x, y, w, h;
   private BoundingBox boundingBox;
 
   // Constructor with all parameters
-  public Gap(float x, float y, float w, float h, float speed) {
+  public Gap(float x, float y, float w, float h) {
+    this();
     // Set the instance variables using the provided values
     setX(x);
     setY(y);
     setWidth(w);
     setHeight(h);
-    setSpeed(speed);
     // Initialise the bounding box
-    this.boundingBox = new BoundingBox(getX()+(getWidth()/2), getY(), 0, getHeight());
-  }
-
-  // Constructor with speed parameter
-  public Gap(float speed) {
-    this(); // Call the default constructor
-    setSpeed(speed);
+    this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
   }
 
   // Default constructor
@@ -28,14 +22,29 @@ public class Gap {
     setX(200);
     setY(-getHeight());
     setWidth(200);
-    setSpeed(20);
     // Initialise the bounding box
-    this.boundingBox = new BoundingBox(getX()+(getWidth()/2), getY(), 0, getHeight());
+    this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
+  }
+
+  public void merge(Gap other) {
+    //are gaps directly on top of each other?
+    if (getX() == other.getX() && getWidth() == other.getWidth()) {
+      return;
+    }
+    if (getX() < other.getX()) { //<>//
+      float gapOffset = (other.getX() - getX());
+      this.setWidth(other.getWidth() + gapOffset);
+    } else {
+      float gapOffset = (getX() + getWidth()) - (other.getX() + other.getWidth());
+      this.setWidth(other.getWidth() + gapOffset);
+      this.setX(other.getX());
+    }
   }
 
   // Update the gap's position based on its speed and deltaTime
-  public void update(float deltaTime) {
-    setY(getY() + getSpeed() * deltaTime);
+  public void update() {
+    boundingBox.setX(getX());
+    boundingBox.setWidth(getWidth());
     boundingBox.setY(getY()); // Update the bounding box's Y position
   }
 
@@ -83,13 +92,5 @@ public class Gap {
 
   public void setHeight(float h) {
     this.h = h;
-  }
-
-  public float getSpeed() {
-    return speed;
-  }
-
-  public void setSpeed(float speed) {
-    this.speed = speed;
   }
 }
