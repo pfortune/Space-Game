@@ -59,6 +59,9 @@ public class Explosion {
      return true;
    }
    
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
    
    
 }

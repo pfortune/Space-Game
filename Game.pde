@@ -173,9 +173,9 @@ void draw() {
       }
     }
 
-    /********************************************
-     *    Aliens/Missile Collision Detection    *
-     ********************************************/
+    /**********************************************
+     *   Aliens/Ship Missile Collision Detection  *
+     **********************************************/
     for (int i = 0; i < ship.getMissiles().length; i++) {
       Missile m = ship.getMissile(i);
 
@@ -189,8 +189,8 @@ void draw() {
           //Increase player score
           player.addScore(2);
           spawnInterval -= spawnInterval/10;
-          addPickup(new Pickup(aliens[j].getX(), aliens[j].getY()));
           m.explode();
+          addPickup(new Pickup(aliens[j].getX(), aliens[j].getY()));
           // Remove the alien ship from the game
           aliens[j].setDead(true);
           break;
@@ -203,6 +203,28 @@ void draw() {
       pickups[i].display();
     }
 
+    /*********************************************
+     *   Ship/Alien Missile Collision Detection  *
+     *********************************************/
+    for (int i = 0; i < aliens.length; i++) {
+      for (int j = 0; j < aliens[i].getMissiles().length; j++) {
+        Missile m = aliens[i].getMissile(j);
+
+        if (m.getBoundingBox() == null) {
+          continue;
+        }
+
+        if (m.getBoundingBox().hasCollided(ship.getBoundingBox())) {
+          // Decrease player's lives or health
+          player.loseLife();
+          m.explode();
+          ship.respawn();
+
+          break;
+        }
+      }
+    }
+
     /********************************************
      *    Ship & Pickup Collision Detection      *
      ********************************************/
@@ -212,7 +234,7 @@ void draw() {
         continue;
       }
       if (ship.getBoundingBox().hasCollided(pickups[i].getBoundingBox())) {
-        ship.increaseMissileCount(int(random(1,5)));
+        ship.increaseMissileCount(int(random(1, 5)));
 
         pickups = removePickup(pickups, i);
         continue;
@@ -255,14 +277,14 @@ public void showGameOverMenu() {
   textSize(50);
   textAlign(CENTER, CENTER);
   text("GAME OVER", width/2, height/4);
-  
+
   resetButton.display();
 }
 
 public void showPauseMenu() {
   fill(255);
   rect((width / 2) - boxSize, (height / 2) - (boxSize / 2), boxSize * 2, boxSize);
-  fill(100,100,100);
+  fill(100, 100, 100);
   textSize(80);
   textAlign(CENTER, CENTER);
   text("PAUSED", width/2, (height/2)- boxSize/4);

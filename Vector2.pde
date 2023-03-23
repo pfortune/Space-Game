@@ -18,4 +18,8 @@ public class Vector2 {
     x = dx / distance;
     y = dy / distance;
    }
+   
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
 }

@@ -1,4 +1,4 @@
-public class Gap { //<>//
+public class Gap { //<>// //<>//
   // Declare instance variables for position, size, speed, color, and bounding box
   private float x, y, w, h;
   private BoundingBox boundingBox;
@@ -31,15 +31,22 @@ public class Gap { //<>//
     if (getX() == other.getX() && getWidth() == other.getWidth()) {
       return;
     }
-    if (getX() < other.getX()) { //<>//
-      float gapOffset = (other.getX() - getX());
-      this.setWidth(other.getWidth() + gapOffset);
-    } else {
-      float gapOffset = (getX() + getWidth()) - (other.getX() + other.getWidth());
-      this.setWidth(other.getWidth() + gapOffset);
-      this.setX(other.getX());
-    }
+
+    // Calculate the left and right x-pos of both gaps
+    float left = getX();
+    float right = getX() + getWidth();
+    float otherLeft = other.getX();
+    float otherRight = other.getX() + other.getWidth();
+
+    // calculate the new left and right x-pos of the merged gap
+    float newLeft = min(left, otherLeft);
+    float newRight = max(right, otherRight);
+
+    // Update the x-position and width of the current gap
+    this.setX(newLeft);
+    this.setWidth(newRight - newLeft);
   }
+
 
   // Update the gap's position based on its speed and deltaTime
   public void update() {

@@ -61,7 +61,7 @@ public class Barrier { //<>//
   private void collided(float x, float payload) {
     println("barrier missile collision at x: " + x);
     println("missile payload: " + payload);
-    addGap(new Gap(x-ship.getWidth(), getY()-5, 50, getHeight()*2));
+    addGap(new Gap(x-ship.getWidth(), getY(), 50, getHeight()*2));
   }
 
   // Update the barrier's position based on its speed and deltaTime
@@ -97,49 +97,35 @@ public class Barrier { //<>//
 
   // Add a new gap to a barrier
   public void addGap(Gap newGap) {
-    boolean[] toRemove = new boolean[gaps.length];
+    
+    int gapsToRemove = 0;
+    
+    //boolean[] toRemove = new boolean[gaps.length];
     for (int i=0; i<gaps.length; i++) {
       if (gaps[i] == null) {
         continue; // Skip if the gap is null (removed)
       }
+      
       Gap g = gaps[i];
-      toRemove[i]=false;
+      
+      //toRemove[i]=false;
       if (g.getBoundingBox().hasCollided(newGap.getBoundingBox())) {
         newGap.merge(g);
-        toRemove[i] = true;
+        gaps[i] = null;
+        gapsToRemove++;
       }
     }
-    for (int i=0; i<toRemove.length; i++) {
-      if (toRemove[i] == false) {
-        continue;
+    
+    Gap[] newArray = new Gap[gaps.length - gapsToRemove + 1];
+    int newIndex = 0;
+    
+    for(int i = 0; i <gaps.length; i++) {
+      if(gaps[i] != null) {
+        newArray[newIndex++] = gaps[i];
       }
-      removeGap(i);
     }
-    // Create a new array with one more element
-    Gap[] newArray = new Gap[gaps.length+1];
-    // Copy the old gap array into the new array
-    arrayCopy(gaps, newArray);
-    // Add the new gap to the end of the new array
-    newArray[gaps.length] = newGap;
+    newArray[newIndex] = newGap;
     // Set the new array as the gaps array
-    gaps = newArray;
-  }
-
-  private void removeGap(int index) {
-    if(gaps.length <= 1) {
-      gaps = new Gap[0];
-      return;
-    }
-    // Create a new array with one less element
-    Gap[] newArray = new Gap[gaps.length];
-    // Copy all elements from the original array to the new array, skipping the one to be removed
-    for (int i = 0, j = 0; i < gaps.length; i++) {
-      if (i == index) {
-        continue;
-      }
-      newArray[j++] = gaps[i];
-    }
-    // Return the new array
     gaps = newArray;
   }
 

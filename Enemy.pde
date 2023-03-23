@@ -38,7 +38,7 @@ class Enemy {
     }
 
     if (millis() - timeLastFired >= reloadTime) {
-      fireMissile(ship);
+      fireMissile();
       timeLastFired = millis();
     }
 
@@ -90,6 +90,30 @@ class Enemy {
 
     return true;
   }
+  
+   public void fireMissile() {
+    // Check if the missile can be fired
+    Missile[] newArray = new Missile[missiles.length + 1];
+    arrayCopy(missiles, newArray);
+    // set a fixed direction downward
+    Vector2 direction = new Vector2(0, 1);
+    newArray[missiles.length] = new Missile(getX(), getY() + 20, direction);
+    missiles = newArray;
+  }
+
+  public void removeMissile(int index) {
+    Missile[] newArray = new Missile[missiles.length - 1];
+    for (int i = 0, j = 0; i < missiles.length; i++) {
+      if (i != index) {
+        newArray[j++] = missiles[i];
+      }
+    }
+    missiles = newArray;
+  }
+  
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
 
   public BoundingBox getBoundingBox() {
     return boundingBox;
@@ -125,26 +149,6 @@ class Enemy {
 
   public Missile getMissile(int index) {
     return this.missiles[index];
-  }
-
-  public void fireMissile(Ship ship) {
-    // Check if the missile can be fired
-    Missile[] newArray = new Missile[missiles.length + 1];
-    arrayCopy(missiles, newArray);
-    Vector2 direction = new Vector2();
-    direction.normalizeFrom(getX(), getY(), ship.getX(), ship.getY());
-    newArray[missiles.length] = new Missile(getX(), getY() + 20, direction);
-    missiles = newArray;
-  }
-
-  public void removeMissile(int index) {
-    Missile[] newArray = new Missile[missiles.length - 1];
-    for (int i = 0, j = 0; i < missiles.length; i++) {
-      if (i != index) {
-        newArray[j++] = missiles[i];
-      }
-    }
-    missiles = newArray;
   }
 
   public void setDead(boolean state) {

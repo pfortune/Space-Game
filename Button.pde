@@ -29,6 +29,10 @@ class Button {
     }
     return false;
   }
+  
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
 
   public void setX(float x) {
     this.x = x;

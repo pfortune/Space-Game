@@ -27,6 +27,10 @@ class Pickup {
     fill(255, 0, 0);
     triangle(getX(), getY() - 8, getX() - 2, getY() - 2 , getX() + 2, getY() - 2);
   }
+  
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
 
   public BoundingBox getBoundingBox() {
     return this.boundingBox;

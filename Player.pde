@@ -8,6 +8,10 @@ public class Player {
     this.score = 0;
     this.lives = initialLives;
   }
+  
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
 
   public String getName() {
     return this.name;
