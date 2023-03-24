@@ -7,8 +7,10 @@ Barrier[] barriers;
 Pickup[] pickups;
 Player player;
 Ship ship;
+Button startButton;
 Button resetButton;
 Button continueButton;
+Button highScoreButton;
 Scoreboard scoreboard;
 Enemy[] aliens;
 
@@ -20,6 +22,7 @@ float alienSpawnInterval = 5000;
 float lastDrawTime;
 int spawnInterval = 30000; // Time between new barriers (milliseconds)
 boolean isPaused = false;
+boolean gameStart = false;
 boolean scoreUpdated = false;
 
 void setup() {
@@ -38,6 +41,11 @@ void setup() {
 
   // Ask the player for their name
   String playerName = JOptionPane.showInputDialog(null, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
+  if (playerName.length() > 10) {
+    playerName = playerName.substring(0, 10);
+  }
+
+
   // If no name or empty name, use a default name
   if (playerName == null || playerName.trim().isEmpty()) {
     playerName = "Player1";
@@ -50,11 +58,18 @@ void setup() {
 
   resetButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "RESET", color(255, 100, 100));
   continueButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "CONTINUE", color(0, 255, 0));
+  startButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "NEW GAME", color(100, 255, 0));
+  highScoreButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "HIGH SCORES", color(255, 255, 100));
 }
 
 void draw() {
   // Set the background colour to black
   background(0);
+
+  if (gameStart == false) {
+    showStartMenu();
+    return;
+  }
 
 
   if (player.getLives() == 0) {
@@ -276,6 +291,32 @@ public void resetGame() {
   spawnInterval = 30000; // Reset the spawn interval
   lastBarrierSpawnTime = -spawnInterval; // spawn barrier immediately
   scoreUpdated = false;
+}
+
+public void showHighScores() {
+  fill(255);
+  rect((width / 2) - boxSize, (height / 2) - (boxSize / 2), boxSize * 2, boxSize);
+  fill(100, 100, 100);
+  textSize(80);
+  textAlign(CENTER, CENTER);
+  text("PAUSED", width/2, (height/2)- boxSize/4);
+
+  textSize(40);
+  resetButton.display();
+  continueButton.display();
+}
+
+public void showStartMenu() {
+  fill(255);
+  rect((width / 2) - boxSize, (height / 2) - (boxSize / 2), boxSize * 2, boxSize);
+  fill(100, 100, 100);
+  textSize(80);
+  textAlign(CENTER, CENTER);
+  text("SPACE GAME", width/2, (height/2)- boxSize/4);
+
+  textSize(40);
+  startButton.display();
+  highScoreButton.display();
 }
 
 public void showGameOverMenu() {

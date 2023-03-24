@@ -15,6 +15,18 @@ class Button {
     setClicked(false);
   }
 
+  public void update(int x, int y) {
+    setX(x);
+    setY(y);
+  }
+
+  public void update(int x, int y, int w, int h) {
+    setX(x);
+    setY(y);
+    setWidth(w);
+    setHeight(h);
+  }
+
   public void display() {
     fill(colour);
     rect(x, y, w, h);
@@ -29,7 +41,7 @@ class Button {
     }
     return false;
   }
-  
+
   /*********************/
   /* Getters & Setters */
   /*********************/
