@@ -38,7 +38,6 @@ void setup() {
   scoreboard = new Scoreboard(5);
   aliens = new Enemy[0];
   pickups = new Pickup[0];
-  frameRate(300);
 
   resetButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "RESET", color(255, 100, 100));
   continueButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "CONTINUE", color(0, 255, 0));
