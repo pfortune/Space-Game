@@ -11,8 +11,6 @@ class Button {
     setHeight(h);
     setText(text);
     setColour(colour);
-    setPressed(false);
-    setClicked(false);
   }
 
   public void update(int y) {
@@ -91,21 +89,5 @@ class Button {
 
   public color getColour() {
     return this.colour;
-  }
-
-  public void setPressed(boolean state) {
-    this.pressed = state;
-  }
-
-  public boolean getPressed() {
-    return this.pressed;
-  }
-
-  public void setClicked(boolean state) {
-    this.clicked = state;
-  }
-
-  public boolean getClicked() {
-    return this.clicked;
   }
 }

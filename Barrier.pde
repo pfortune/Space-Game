@@ -58,8 +58,6 @@ public class Barrier { //<>//
   }
 
   private void collided(float x, float payload) {
-    println("barrier missile collision at x: " + x);
-    println("missile payload: " + payload);
     addGap(new Gap(x-ship.getWidth(), getY(), 50, getHeight()*2));
   }
 

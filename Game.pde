@@ -10,7 +10,6 @@ Ship ship;
 Button startButton;
 Button resetButton;
 Button continueButton;
-Button highScoreButton;
 Scoreboard scoreboard;
 Enemy[] aliens;
 
@@ -43,7 +42,6 @@ void setup() {
   resetButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "RESET", color(255, 100, 100));
   continueButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "CONTINUE", color(0, 255, 0));
   startButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "NEW GAME", color(100, 255, 0));
-  highScoreButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "HIGH SCORES", color(255, 255, 100));
 }
 
 void draw() {
@@ -62,7 +60,6 @@ void draw() {
       scoreUpdated = true;
     }
     showGameOverMenu();
-    gameStart = false;
     return;
   }
 
@@ -291,19 +288,6 @@ public void resetGame() {
   scoreUpdated = false;
 }
 
-public void showHighScores() {
-  fill(255);
-  rect((width / 2) - boxSize, (height / 2) - (boxSize / 2), boxSize * 2, boxSize);
-  fill(100, 100, 100);
-  textSize(80);
-  textAlign(CENTER, CENTER);
-  text("PAUSED", width/2, (height/2)- boxSize/4);
-
-  textSize(40);
-  resetButton.display();
-  continueButton.display();
-}
-
 public void showStartMenu() {
   fill(255);
   rect((width / 2) - boxSize, (height / 2) - (boxSize / 2), boxSize * 2, boxSize);
@@ -314,7 +298,6 @@ public void showStartMenu() {
 
   textSize(40);
   startButton.display();
-  highScoreButton.display();
 }
 
 public void showGameOverMenu() {
@@ -471,6 +454,13 @@ void mousePressed() {
 
   if (gameStart == false) {
     if (startButton.handleClick(mouseX, mouseY)) {
+      requestPlayerName();
+    }
+  }
+
+  if (gameStart == true && player.getLives() == 0) {
+    if (startButton.handleClick(mouseX, mouseY)) {
+      resetGame();
       requestPlayerName();
     }
   }

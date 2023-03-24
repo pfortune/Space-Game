@@ -100,21 +100,24 @@ public class Explosion {
 
       return true;
     }
-
-    // Getters and setters for the private instance variables
-    public PuffBall[] getPuffs() {
-      return this.puffs;
-    }
-
-    public void setPuffs(PuffBall[] puffs) {
-      this.puffs = puffs;
-    }
-
-    public int getNumExplosions() {
-      return this.numExplosions;
-    }
-
-    public void setNumExplosions(int numExplosions) {
-      this.numExplosions = numExplosions;
-    }
+    
+    return false;
   }
+
+  // Getters and setters for the private instance variables
+  public PuffBall[] getPuffs() {
+    return this.puffs;
+  }
+
+  public void setPuffs(PuffBall[] puffs) {
+    this.puffs = puffs;
+  }
+
+  public int getNumExplosions() {
+    return this.numExplosions;
+  }
+
+  public void setNumExplosions(int numExplosions) {
+    this.numExplosions = numExplosions;
+  }
+}
