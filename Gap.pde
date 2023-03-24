@@ -47,7 +47,7 @@ public class Gap { //<>// //<>//
     this.setWidth(newRight - newLeft);
   }
 
-  // Update the gap's position based on its speed and deltaTime
+  // Update the gap's position
   public void update() {
     boundingBox.setX(getX());
     boundingBox.setWidth(getWidth());
