@@ -53,7 +53,6 @@ void draw() {
     return;
   }
 
-
   if (player.getLives() == 0) {
     if (scoreUpdated == false) {
       scoreboard.update(player.getName(), player.getScore());
@@ -100,6 +99,10 @@ void draw() {
       Barrier b = barriers[i];
       b.update(deltaTime); // Update barrier state
       b.display(); // Draw the barrier
+
+      /********************************************
+       *    Barrier & Ship Collision Detection    *
+       ********************************************/
 
       // Check if the ship is colliding with the current barrier
       if (b.collisionCheck(ship.getBoundingBox())) {
@@ -234,6 +237,10 @@ void draw() {
         pickups = removePickup(pickups, i);
         continue;
       }
+      
+    /********************************************
+     *   Barrier & Pickup Collision Detection   *
+     ********************************************/
       for (int j=0; j<barriers.length; j++ ) {
         if (barriers[j] == null) {
           continue;

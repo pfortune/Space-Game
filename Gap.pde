@@ -57,7 +57,7 @@ public class Gap { //<>// //<>//
   // Display the gap on the screen
   public void display() {
     fill(0);
-    rect(getX(), getY(), getWidth(), getHeight());
+    rect(getX(), getY()-1, getWidth(), getHeight());
   }
 
   /*********************/
