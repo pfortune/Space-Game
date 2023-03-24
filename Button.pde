@@ -15,8 +15,7 @@ class Button {
     setClicked(false);
   }
 
-  public void update(int x, int y) {
-    setX(x);
+  public void update(int y) {
     setY(y);
   }
 

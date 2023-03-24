@@ -50,7 +50,6 @@ public class Barrier { //<>//
       }
       Gap g = gaps[i];
 
-      //println("gap(left: " + g.getX() + ", right: " + g.getX() + g.getWidth() + "), other(left: "+other.getX() + ", right: " + other.getX() + other.getWidth()+")");
       if (g.getBoundingBox().containsOnX(other)) {
         return false;
       }

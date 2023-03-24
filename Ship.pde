@@ -163,7 +163,6 @@ public class Ship {
     for (int i = 0; i < missiles.length; i++) {
       Missile m = missiles[i];
       if (m.readyForCleanup()) {
-        //System.out.println("Removing expired missile at index " + i);
         missiles = removeFromArray(missiles, i);
         i--; // Decrement index to account for removed item
       }

@@ -54,9 +54,6 @@ public class KeyHandler {
     }
   }
   
-  public void mouseClicked() {
-    
-  }
 
   /*********************/
   /* Getters & Setters */

@@ -23,7 +23,6 @@ class Enemy {
       missiles[i].update();
       
       if (missiles[i].readyForCleanup()) {
-        //System.out.println("Removing expired missile at index " + i);
         removeMissile(i);
         i--; // Decrement index to account for removed item
       }

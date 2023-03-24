@@ -24,6 +24,7 @@ int spawnInterval = 30000; // Time between new barriers (milliseconds)
 boolean isPaused = false;
 boolean gameStart = false;
 boolean scoreUpdated = false;
+String playerName;
 
 void setup() {
   size(1280, 720); // Set game window sise
@@ -35,26 +36,9 @@ void setup() {
   lastBarrierSpawnTime = -spawnInterval; // Start by spawning a barrier immediately
   keyHandler = new KeyHandler(); // Make a KeyHandler object for keyboard input
   ship = new Ship(keyHandler); // Make a Ship object and give it the keyHandler
-  scoreboard = new Scoreboard(10);
+  scoreboard = new Scoreboard(5);
   aliens = new Enemy[0];
   pickups = new Pickup[0];
-
-  // Ask the player for their name
-  String playerName = JOptionPane.showInputDialog(null, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
-  if (playerName.length() > 10) {
-    playerName = playerName.substring(0, 10);
-  }
-
-
-  // If no name or empty name, use a default name
-  if (playerName == null || playerName.trim().isEmpty()) {
-    playerName = "Player1";
-  }
-
-  // Make a Player object with the name and 3 lives
-  player = new Player(playerName.trim(), 3);
-
-  //public Button(float x, float y, float w, float h, String text, color colour) {
 
   resetButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "RESET", color(255, 100, 100));
   continueButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "CONTINUE", color(0, 255, 0));
@@ -78,6 +62,7 @@ void draw() {
       scoreUpdated = true;
     }
     showGameOverMenu();
+    gameStart = false;
     return;
   }
 
@@ -92,12 +77,10 @@ void draw() {
     // Calculate the time elapsed since the last draw call
     float deltaTime = (millis() - lastDrawTime)/1000;
     lastDrawTime = millis();
-    //println(lastBarrierSpawnTime);
     // Spawn a new barrier if it's time to spawn one
     if (millis() - lastBarrierSpawnTime >= spawnInterval) {
       addBarrier(new Barrier());
       lastBarrierSpawnTime = millis();
-      println("add barrier");
     }
 
     // Spawn a new alien if it's time to spawn one
@@ -110,8 +93,6 @@ void draw() {
 
     // Initialise a flag for checking if the ship is colliding with any barriers
     boolean isCollidingWithBarrier = false;
-    // Initialise a flag for checking if the ship is going through any gaps
-    //boolean isGoingThrough?Gap = false;
 
     // Loop through all barriers
     for (int i = 0; i < barriers.length; i++) {
@@ -125,7 +106,6 @@ void draw() {
 
       // Check if the ship is colliding with the current barrier
       if (b.collisionCheck(ship.getBoundingBox())) {
-        println("ship collided with barrier");
         isCollidingWithBarrier = true;
       }
 
@@ -164,9 +144,6 @@ void draw() {
     ship.move(deltaTime); // Move the ship
     ship.update(deltaTime); // Update the ship's state
     ship.display(); // Draw the ship
-
-    //scoreboard.update();
-    //scoreboard.display();
 
     displayStats();
 
@@ -279,6 +256,27 @@ void draw() {
   }
 }
 
+public void requestPlayerName() {
+  // Ask the player for their name
+  playerName = JOptionPane.showInputDialog(null, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
+
+  // If no name or empty name, use a default name
+  if (playerName == null) {
+    showStartMenu();
+    gameStart = false;
+    return;
+  } else if (playerName.trim().isEmpty()) {
+    playerName = "Player1";
+  } else if (playerName.length() > 10) {
+    playerName = playerName.substring(0, 10);
+  }
+
+
+  // Make a Player object with the name and 3 lives
+  player = new Player(playerName.trim(), 3);
+  gameStart = true;
+}
+
 public void resetGame() {
   barriers = new Barrier[0];
   aliens = new Enemy[0];
@@ -322,12 +320,14 @@ public void showStartMenu() {
 public void showGameOverMenu() {
   fill(255);
   rect((width / 2) - boxSize, (height / 2) - (boxSize / 2), boxSize * 2, boxSize);
-  fill(0);
-  textSize(50);
+  fill(100, 100, 100);
+  textSize(80);
   textAlign(CENTER, CENTER);
-  text("GAME OVER", width/2, height/4);
-  scoreboard.display(int((width / 2) - (boxSize / 2)), int(height / 2));
-  resetButton.display();
+  text("GAME OVER", width/2, (height/2)- boxSize/3);
+  scoreboard.display(int((width/2)), int((height/2)-boxSize/7));
+  textSize(40);
+  startButton.update(450);
+  startButton.display();
 }
 
 public void showPauseMenu() {
@@ -459,13 +459,19 @@ public void keyReleased() {
 }
 
 void mousePressed() {
-  if (isPaused || player.getLives() == 0) {
+  if (isPaused) {
     if (resetButton.handleClick(mouseX, mouseY)) {
       resetGame();
       isPaused = false;
     }
     if (continueButton.handleClick(mouseX, mouseY)) {
       isPaused = false;
+    }
+  }
+
+  if (gameStart == false) {
+    if (startButton.handleClick(mouseX, mouseY)) {
+      requestPlayerName();
     }
   }
 }

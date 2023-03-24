@@ -14,36 +14,39 @@ class Scoreboard {
     }
   }
 
-public void update(String playerName, int score) {
-  int newIndex = -1;
+  public void update(String playerName, int score) {
+    int newIndex = -1;
 
-  for (int i = 0; i < maxSize; i++) {
-    if (playerNames[i] == null || scores[i] < score) {
-      newIndex = i;
-      break;
-    }
-  }
-
-  if (newIndex != -1) {
-    // Shift all elements after the newIndex one position to the right
-    for (int i = maxSize - 1; i > newIndex; i--) {
-      playerNames[i] = playerNames[i - 1];
-      scores[i] = scores[i - 1];
+    for (int i = 0; i < maxSize; i++) {
+      if (playerNames[i] == null || scores[i] < score) {
+        newIndex = i;
+        break;
+      }
     }
 
-    // Insert the new playerName and score at newIndex
-    playerNames[newIndex] = playerName;
-    scores[newIndex] = score;
+    if (newIndex != -1) {
+      // Shift all elements after the newIndex one position to the right
+      for (int i = maxSize - 1; i > newIndex; i--) {
+        playerNames[i] = playerNames[i - 1];
+        scores[i] = scores[i - 1];
+      }
+
+      // Insert the new playerName and score at newIndex
+      playerNames[newIndex] = playerName;
+      scores[newIndex] = score;
+    }
   }
-}
 
 
   public void display(int x, int y) {
-    textSize(14);
-    fill(150, 150, 150);
+    textSize(20);
+    fill(0);
 
-    for (int i=0; i < maxSize; i++) {
-      println("Rank: " + (i+1) + ", Score: " + scores[i] + ", Player: " + playerNames[i]);
+    for (int i = 0; i < scores.length; i++) {
+      
+      text("#" + (i + 1) + ": " + playerNames[i].toUpperCase() + " - Points: " + scores[i], x, y);
+
+      y += 26;
     }
   }
 }

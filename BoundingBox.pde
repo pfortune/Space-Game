@@ -32,7 +32,6 @@ public class BoundingBox {
   }
   
   public boolean containsOnX(BoundingBox other) {
-    //println("("+this.getX()+" < "+other.getX()+" && ("+other.getX()+" + "+other.getWidth()+") < ("+this.getX()+" + "+this.getWidth()+"));");
     return (this.getX() < other.getX() && (other.getX() + other.getWidth()) < (this.getX() + this.getWidth()));
   }
   
