@@ -47,44 +47,44 @@ class Button {
     this.x = x;
   }
 
-  public float getX() {
-    return this.x;
-  }
-
   public void setY(float y) {
     this.y = y;
-  }
-
-  public float getY() {
-    return this.y;
   }
 
   public void setWidth(float w) {
     this.w = w;
   }
 
-  public float getWidth() {
-    return this.w;
-  }
-
   public void setHeight(float h) {
     this.h = h;
-  }
-
-  public float getHeight() {
-    return this.h;
   }
 
   public void setText(String text) {
     this.text = text;
   }
 
-  public String getText() {
-    return this.text;
-  }
-
   public void setColour(color colour) {
     this.colour = colour;
+  }
+
+  public float getX() {
+    return this.x;
+  }
+
+  public float getY() {
+    return this.y;
+  }
+
+  public float getWidth() {
+    return this.w;
+  }
+
+  public float getHeight() {
+    return this.h;
+  }
+
+  public String getText() {
+    return this.text;
   }
 
   public color getColour() {

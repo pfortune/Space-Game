@@ -23,7 +23,7 @@ public class Explosion {
     // duration = size * 15
     // startRadius = size / 2
     // endRadius = size * 2
-    this.puffs[0] = new PuffBall(size*15, float(size)/2, float(size)*2, getX(), getY(), color(255, 0, 0, 125), end);
+    this.puffs[0] = new PuffBall(size*15, size/2, size*2, getX(), getY(), color(255, 0, 0, 125), end);
 
     // Create the remaining PuffBall objects with random parameters
     for (int i=1; i<this.numExplosions; i++) {
@@ -34,31 +34,6 @@ public class Explosion {
       int puffDuration = int(random(size, size*10));
       this.puffs[i] = new PuffBall(puffDuration, puffStart, puffEnd, puffX, puffY, start, end);
     }
-  }
-
-  // Getters and setters for the private instance variables
-  public float getX() {
-    return this.x;
-  }
-
-  public void setX(float x) {
-    this.x = x;
-  }
-
-  public float getY() {
-    return this.y;
-  }
-
-  public void setY(float y) {
-    this.y = y;
-  }
-
-  public int getSize() {
-    return this.size;
-  }
-
-  public void setSize(int size) {
-    this.size = size;
   }
 
   /**
@@ -100,24 +75,52 @@ public class Explosion {
 
       return true;
     }
-    
+
     return false;
   }
 
-  // Getters and setters for the private instance variables
-  public PuffBall[] getPuffs() {
-    return this.puffs;
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
+
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  public void setY(float y) {
+    this.y = y;
+  }
+
+  public void setSize(int size) {
+    this.size = size;
   }
 
   public void setPuffs(PuffBall[] puffs) {
     this.puffs = puffs;
   }
 
+  public void setNumExplosions(int numExplosions) {
+    this.numExplosions = numExplosions;
+  }
+
+  public float getX() {
+    return this.x;
+  }
+
+  public float getY() {
+    return this.y;
+  }
+
+  public PuffBall[] getPuffs() {
+    return this.puffs;
+  }
+
+  public int getSize() {
+    return this.size;
+  }
+
   public int getNumExplosions() {
     return this.numExplosions;
   }
 
-  public void setNumExplosions(int numExplosions) {
-    this.numExplosions = numExplosions;
-  }
 }

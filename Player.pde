@@ -4,41 +4,9 @@ public class Player {
   private int lives;
 
   public Player(String name, int initialLives) {
-    this.name = name;
-    this.score = 0;
-    this.lives = initialLives;
-  }
-  
-  /*********************/
-  /* Getters & Setters */
-  /*********************/
-
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getScore() {
-    return this.score;
-  }
-
-  public void setScore(int score) {
-    this.score = score;
-  }
-
-  public void addScore(int score) {
-    this.score += score;
-  }
-
-  public int getLives() {
-    return this.lives;
-  }
-
-  public void setLives(int lives) {
-    this.lives = lives;
+    setName(name);
+    setScore(0);
+    setLives(initialLives);
   }
 
   public void loseLife() {
@@ -49,5 +17,37 @@ public class Player {
 
   public void gainLife() {
     this.lives++;
+  }
+
+  public void addScore(int score) {
+    this.score += score;
+  }
+
+  /*********************/
+  /* Getters & Setters */
+  /*********************/
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setScore(int score) {
+    this.score = score;
+  }
+
+  public void setLives(int lives) {
+    this.lives = lives;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
+  public int getScore() {
+    return this.score;
+  }
+
+  public int getLives() {
+    return this.lives;
   }
 }

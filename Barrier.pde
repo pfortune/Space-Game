@@ -94,17 +94,17 @@ public class Barrier { //<>//
 
   // Add a new gap to a barrier
   public void addGap(Gap newGap) {
-    
+
     int gapsToRemove = 0;
-    
+
     //boolean[] toRemove = new boolean[gaps.length];
     for (int i=0; i<gaps.length; i++) {
       if (gaps[i] == null) {
         continue; // Skip if the gap is null (removed)
       }
-      
+
       Gap g = gaps[i];
-      
+
       //toRemove[i]=false;
       if (g.getBoundingBox().hasCollided(newGap.getBoundingBox())) {
         newGap.merge(g);
@@ -112,12 +112,12 @@ public class Barrier { //<>//
         gapsToRemove++;
       }
     }
-    
+
     Gap[] newArray = new Gap[gaps.length - gapsToRemove + 1];
     int newIndex = 0;
-    
-    for(int i = 0; i <gaps.length; i++) {
-      if(gaps[i] != null) {
+
+    for (int i = 0; i <gaps.length; i++) {
+      if (gaps[i] != null) {
         newArray[newIndex++] = gaps[i];
       }
     }
@@ -131,6 +131,30 @@ public class Barrier { //<>//
   /* Getters & Setters */
   /*********************/
 
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  public void setY(float y) {
+    this.y = y;
+  }
+
+  public void setWidth(float w) {
+    this.w = w;
+  }
+
+  public void setHeight(float h) {
+    this.h = h;
+  }
+
+  public void setSpeed(float speed) {
+    this.speed = speed;
+  }
+
+  public void setColour(color colour) {
+    this.colour = colour;
+  }
+
   public BoundingBox getBoundingBox() {
     return boundingBox;
   }
@@ -139,47 +163,23 @@ public class Barrier { //<>//
     return x;
   }
 
-  public void setX(float x) {
-    this.x = x;
-  }
-
   public float getY() {
     return y;
-  }
-
-  public void setY(float y) {
-    this.y = y;
   }
 
   public float getWidth() {
     return w;
   }
 
-  public void setWidth(float w) {
-    this.w = w;
-  }
-
   public float getHeight() {
     return h;
-  }
-
-  public void setHeight(float h) {
-    this.h = h;
   }
 
   public float getSpeed() {
     return speed;
   }
 
-  public void setSpeed(float speed) {
-    this.speed = speed;
-  }
-
   public color getColour() {
     return colour;
-  }
-
-  public void setColour(color colour) {
-    this.colour = colour;
   }
 }

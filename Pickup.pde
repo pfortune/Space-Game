@@ -9,9 +9,8 @@ class Pickup {
     // Create a new BoundingBox for the pickup
     this.boundingBox = new BoundingBox(getX()-size/2, getY()-size/2, size/2, size/2);
   }
-  
-  public void update(){
-    
+
+  public void update() {
   }
 
   public void display() {
@@ -25,35 +24,35 @@ class Pickup {
 
     // Tip (triangle)
     fill(255, 0, 0);
-    triangle(getX(), getY() - 8, getX() - 2, getY() - 2 , getX() + 2, getY() - 2);
+    triangle(getX(), getY() - 8, getX() - 2, getY() - 2, getX() + 2, getY() - 2);
   }
-  
+
   /*********************/
   /* Getters & Setters */
   /*********************/
 
-  public BoundingBox getBoundingBox() {
-    return this.boundingBox;
-  }
-
   public void setX(float x) {
     this.x = x;
-  }
-
-  public float getX() {
-    return this.x;
   }
 
   public void setY(float y) {
     this.y = y;
   }
 
-  public float getY() {
-    return this.y;
-  }
-
   public void setSize(float size) {
     this.size = size;
+  }
+
+  public BoundingBox getBoundingBox() {
+    return this.boundingBox;
+  }
+
+  public float getX() {
+    return this.x;
+  }
+
+  public float getY() {
+    return this.y;
   }
 
   public float getSize() {

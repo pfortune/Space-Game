@@ -47,7 +47,6 @@ public class Gap { //<>// //<>//
     this.setWidth(newRight - newLeft);
   }
 
-
   // Update the gap's position based on its speed and deltaTime
   public void update() {
     boundingBox.setX(getX());
@@ -65,6 +64,22 @@ public class Gap { //<>// //<>//
   /* Getters & Setters */
   /*********************/
 
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  public void setY(float y) {
+    this.y = y;
+  }
+
+  public void setWidth(float w) {
+    this.w = w;
+  }
+
+  public void setHeight(float h) {
+    this.h = h;
+  }
+
   public BoundingBox getBoundingBox() {
     return boundingBox;
   }
@@ -73,31 +88,16 @@ public class Gap { //<>// //<>//
     return x;
   }
 
-  public void setX(float x) {
-    this.x = x;
-  }
-
   public float getY() {
     return y;
-  }
-
-  public void setY(float y) {
-    this.y = y;
   }
 
   public float getWidth() {
     return w;
   }
 
-  public void setWidth(float w) {
-    this.w = w;
-  }
-
   public float getHeight() {
     return h;
   }
 
-  public void setHeight(float h) {
-    this.h = h;
-  }
 }

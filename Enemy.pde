@@ -21,14 +21,14 @@ class Enemy {
   public void update(Ship ship) {
     for (int i = 0; i < missiles.length; i++) {
       missiles[i].update();
-      
+
       if (missiles[i].readyForCleanup()) {
         removeMissile(i);
         i--; // Decrement index to account for removed item
       }
     }
 
-    if(explosion != null){
+    if (explosion != null) {
       explosion.update();
     }
 
@@ -58,7 +58,7 @@ class Enemy {
       missiles[i].display();
     }
 
-    if(explosion != null){
+    if (explosion != null) {
       explosion.display();
     }
 
@@ -82,15 +82,15 @@ class Enemy {
     if (missiles != null && missiles.length > 0) {
       return false;
     }
-    
-    if(!explosion.completed()){
+
+    if (!explosion.completed()) {
       return false;
     }
 
     return true;
   }
-  
-   public void fireMissile() {
+
+  public void fireMissile() {
     // Check if the missile can be fired
     Missile[] newArray = new Missile[missiles.length + 1];
     arrayCopy(missiles, newArray);
@@ -109,33 +109,40 @@ class Enemy {
     }
     missiles = newArray;
   }
-  
+
   /*********************/
   /* Getters & Setters */
   /*********************/
 
-  public BoundingBox getBoundingBox() {
-    return boundingBox;
-  }
-
   public void setSpeed(float speed) {
     this.speed = speed;
-  }
-
-  public float getSpeed() {
-    return this.speed;
   }
 
   public void setX(float x) {
     this.x = x;
   }
 
-  public float getX() {
-    return this.x;
-  }
-
   public void setY(float y) {
     this.y = y;
+  }
+
+  public void setDead(boolean state) {
+    this.isDead = state;
+    if (state == true) {
+      this.explosion = new Explosion(getX(), getY(), 150);
+    }
+  }
+
+  public BoundingBox getBoundingBox() {
+    return boundingBox;
+  }
+
+  public float getSpeed() {
+    return this.speed;
+  }
+
+  public float getX() {
+    return this.x;
   }
 
   public float getY() {
@@ -148,13 +155,6 @@ class Enemy {
 
   public Missile getMissile(int index) {
     return this.missiles[index];
-  }
-
-  public void setDead(boolean state) {
-    this.isDead = state;
-    if(state == true) {
-       this.explosion = new Explosion(getX(), getY(), 150); 
-    }
   }
 
   public boolean isDead() {

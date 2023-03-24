@@ -48,75 +48,75 @@ public class PuffBall {
   /* Getters & Setters */
   /*********************/
 
-  public int getDuration() {
-    return this.duration;
-  }
-
   public void setDuration(int duration) {
     this.duration = duration;
-  }
-
-  public float getStartRadius() {
-    return this.startRadius;
   }
 
   public void setStartRadius(float startRadius) {
     this.startRadius = startRadius;
   }
 
-  public float getEndRadius() {
-    return this.endRadius;
-  }
-
   public void setEndRadius(float endRadius) {
     this.endRadius = endRadius;
-  }
-
-  public float getCurrentRadius() {
-    return this.currentRadius;
   }
 
   public void setCurrentRadius(float currentRadius) {
     this.currentRadius = currentRadius;
   }
 
-  public float getX() {
-    return this.x;
-  }
-
   public void setX(float x) {
     this.x = x;
-  }
-
-  public float getY() {
-    return this.y;
   }
 
   public void setY(float y) {
     this.y = y;
   }
 
-  public color getStartColour() {
-    return this.startColour;
-  }
-
   public void setStartColour(color startColour) {
     this.startColour = startColour;
-  }
-
-  public color getEndColour() {
-    return this.endColour;
   }
 
   public void setEndColour(color endColour) {
     this.endColour = endColour;
   }
 
-  public color getCurrentColour() {
-    return this.currentColour;
-  }
-
   public void setCurrentColour(color currentColour) {
     this.currentColour = currentColour;
+  }
+
+  public int getDuration() {
+    return this.duration;
+  }
+
+  public float getStartRadius() {
+    return this.startRadius;
+  }
+
+  public float getEndRadius() {
+    return this.endRadius;
+  }
+
+  public float getCurrentRadius() {
+    return this.currentRadius;
+  }
+
+  public float getX() {
+    return this.x;
+  }
+
+  public float getY() {
+    return this.y;
+  }
+
+  public color getStartColour() {
+    return this.startColour;
+  }
+
+  public color getEndColour() {
+    return this.endColour;
+  }
+
+  public color getCurrentColour() {
+    return this.currentColour;
   }
 }

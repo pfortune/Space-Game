@@ -253,52 +253,68 @@ public class Ship {
   /* Getters & Setters */
   /*********************/
 
-  public float getX() {
-    return this.x;
-  }
-
   public void setX(float x) {
     this.x = x;
-  }
-
-  public float getY() {
-    return this.y;
   }
 
   public void setY(float y) {
     this.y = y;
   }
 
-  public float getWidth() {
-    return this.w;
-  }
-
   public void setWidth(float w) {
     this.w = w;
-  }
-
-  public float getHeight() {
-    return this.h;
   }
 
   public void setHeight(float h) {
     this.h = h;
   }
 
-  public float getSpeed() {
-    return this.speed;
-  }
-
   public void setSpeed(float speed) {
     this.speed = speed;
   }
 
-  public color getColour() {
-    return this.colour;
-  }
-
   public void setColour(color colour) {
     this.colour = colour;
+  }
+
+  public void setMissile(int count) {
+    this.missileCount = count;
+  }
+
+  public void increaseMissileCount(int count) {
+    this.missileCount += count;
+  }
+
+  public void addMissile() {
+    this.missileCount++;
+  }
+
+  public void setColliding(boolean state) {
+    this.isColliding = state;
+  }
+
+  public float getX() {
+    return this.x;
+  }
+
+  public float getY() {
+    return this.y;
+  }
+
+  public float getWidth() {
+    return this.w;
+  }
+
+  public float getHeight() {
+    return this.h;
+  }
+
+  public float getSpeed() {
+    return this.speed;
+  }
+
+  public color getColour() {
+    return this.colour;
   }
 
   public BoundingBox getBoundingBox() {
@@ -316,24 +332,9 @@ public class Ship {
   public Missile getMissile(int index) {
     return this.missiles[index];
   }
-  
-  public void setMissile(int count) {
-    this.missileCount = count;
-  }
-  
-  public void increaseMissileCount(int count) {
-    this.missileCount += count;
-  }
-
-  public void addMissile() {
-    this.missileCount++;
-  }
 
   public boolean isInCollision() {
     return this.isColliding;
   }
 
-  public void setColliding(boolean state) {
-    this.isColliding = state;
-  }
 }
