@@ -34,9 +34,9 @@ public class Ship {
    * This method updates the ship's position, bounding box, missiles, and puffballs based on user input and time elapsed.
    */
   public void update(float deltaTime) {
-    if(this.explosion != null){
+    if (this.explosion != null) {
       this.explosion.update();
-      if(this.explosion.completed()){
+      if (this.explosion.completed()) {
         this.explosion = null;
       }
     }
@@ -73,7 +73,7 @@ public class Ship {
     removeExpiredPuffs();
     removeExpiredMissiles();
   }
-  
+
   public void respawn() {
     explosion = new Explosion(getX(), getY(), int(getHeight()*5));
     setX(width/2);
@@ -81,14 +81,14 @@ public class Ship {
     boundingBox.setX(getX() - (getWidth()/2));
     boundingBox.setY(getY() - (getHeight()/2));
   }
-  
+
 
   /**
    * Display method for the Ship class.
    * This method draws the ship, its rockets, puffballs, and missiles on the screen.
    */
   public void display() {
-    if(this.explosion != null){
+    if (this.explosion != null) {
       this.explosion.display();
     }
     // Ship body
@@ -119,7 +119,7 @@ public class Ship {
       Missile m = missiles[i];
       m.display();
     }
-    
+
     getBoundingBox().display();
   }
 
@@ -147,12 +147,12 @@ public class Ship {
   public void addPuff(float x, float y, color startColour) {
     addPuff(new PuffBall(x, y, startColour));
   }
-  
-  public void addPuff(PuffBall puff){
+
+  public void addPuff(PuffBall puff) {
     PuffBall[] newArray = new PuffBall[puffs.length + 1];
     arrayCopy(puffs, newArray);
     newArray[puffs.length] = puff;
-    puffs = newArray; 
+    puffs = newArray;
   }
 
   /**
@@ -247,6 +247,13 @@ public class Ship {
     }
   }
 
+  public void increaseMissileCount(int count) {
+    this.missileCount += count;
+  }
+
+  public void addMissile() {
+    this.missileCount++;
+  }
 
 
   /*********************/
@@ -279,14 +286,6 @@ public class Ship {
 
   public void setMissile(int count) {
     this.missileCount = count;
-  }
-
-  public void increaseMissileCount(int count) {
-    this.missileCount += count;
-  }
-
-  public void addMissile() {
-    this.missileCount++;
   }
 
   public void setColliding(boolean state) {
@@ -324,17 +323,12 @@ public class Ship {
   public int getMissileCount() {
     return this.missileCount;
   }
-  
+
   public Missile[] getMissiles() {
     return this.missiles;
   }
-  
+
   public Missile getMissile(int index) {
     return this.missiles[index];
   }
-
-  public boolean isInCollision() {
-    return this.isColliding;
-  }
-
 }

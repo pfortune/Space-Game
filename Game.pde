@@ -126,16 +126,10 @@ void draw() {
       }
     }
 
-    /********************************************
-     *     Gap & Ship Collision Detection       *
-     ********************************************/
-
     if (isCollidingWithBarrier) {
-      if (!ship.isInCollision()) {
-        player.loseLife(); // Reduce player's lives
-        ship.respawn();
-        ship.setColliding(true); // Set the ship's collision status to true
-      }
+      player.loseLife(); // Reduce player's lives
+      ship.respawn();
+      ship.setColliding(true); // Set the ship's collision status to true
     } else {
       ship.setColliding(false);
     }
@@ -237,10 +231,10 @@ void draw() {
         pickups = removePickup(pickups, i);
         continue;
       }
-      
-    /********************************************
-     *   Barrier & Pickup Collision Detection   *
-     ********************************************/
+
+      /********************************************
+       *   Barrier & Pickup Collision Detection   *
+       ********************************************/
       for (int j=0; j<barriers.length; j++ ) {
         if (barriers[j] == null) {
           continue;

@@ -37,7 +37,6 @@ class Scoreboard {
     }
   }
 
-
   public void display(int x, int y) {
     textSize(20);
     fill(0);

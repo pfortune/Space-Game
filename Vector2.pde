@@ -32,9 +32,8 @@ public class Vector2 {
   /*********************/
   /* Getters & Setters */
   /*********************/
-
-  public float getX() {
-    return x;
+  public void setY(float y) {
+    this.y = y;
   }
 
   public void setX(float x) {
@@ -45,7 +44,7 @@ public class Vector2 {
     return y;
   }
 
-  public void setY(float y) {
-    this.y = y;
+  public float getX() {
+    return x;
   }
 }
