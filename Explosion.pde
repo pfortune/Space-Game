@@ -40,11 +40,14 @@ public class Explosion {
    * Update method to update all the PuffBall objects in the explosion.
    */
   public void update() {
-    for (int i=0; i<puffs.length; i++) {
-      if (this.puffs[i] == null) {
+    int i = 0;
+    while (i < puffs.length) {
+      if (puffs[i] == null) {
+        i++;
         continue;
       }
-      this.puffs[i].update();
+      puffs[i].update();
+      i++;
     }
   }
 
@@ -52,32 +55,36 @@ public class Explosion {
    * Display method to display all the PuffBall objects in the explosion.
    */
   public void display() {
-    for (int i=0; i<puffs.length; i++) {
-      if (this.puffs[i] == null) {
+    int i = 0;
+    while (i < puffs.length) {
+      if (puffs[i] == null) {
+        i++;
         continue;
       }
-      this.puffs[i].display();
+      puffs[i].display();
+      i++;
     }
   }
 
   /**
    * Check if the explosion is completed, i.e., all the PuffBall objects have expired.
-   * @return True if the explosion is completed, false otherwise.
+   * Return True if the explosion is completed, false otherwise.
    */
   public boolean completed() {
-    for (int i=0; i<puffs.length; i++) {
-      if (this.puffs[i] == null) {
+    int i = 0;
+    while (i < puffs.length) {
+      if (puffs[i] == null) {
+        i++;
         continue;
       }
-      if (!this.puffs[i].isExpired()) {
+      if (!puffs[i].isExpired()) {
         return false;
       }
-
-      return true;
+      i++;
     }
-
-    return false;
+    return true;
   }
+
 
   /*********************/
   /* Getters & Setters */
@@ -122,5 +129,4 @@ public class Explosion {
   public int getNumExplosions() {
     return this.numExplosions;
   }
-
 }

@@ -97,7 +97,6 @@ public class Barrier { //<>//
 
     int gapsToRemove = 0;
 
-    //boolean[] toRemove = new boolean[gaps.length];
     for (int i=0; i<gaps.length; i++) {
       if (gaps[i] == null) {
         continue; // Skip if the gap is null (removed)
@@ -105,7 +104,6 @@ public class Barrier { //<>//
 
       Gap g = gaps[i];
 
-      //toRemove[i]=false;
       if (g.getBoundingBox().hasCollided(newGap.getBoundingBox())) {
         newGap.merge(g);
         gaps[i] = null;

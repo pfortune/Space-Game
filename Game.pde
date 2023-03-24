@@ -38,6 +38,7 @@ void setup() {
   scoreboard = new Scoreboard(5);
   aliens = new Enemy[0];
   pickups = new Pickup[0];
+  frameRate(300);
 
   resetButton = new Button((width / 2) - (boxSize / 2), height / 2, boxSize, boxSize/5, "RESET", color(255, 100, 100));
   continueButton = new Button((width / 2) - (boxSize / 2), (height / 2) + (boxSize / 4), boxSize, boxSize/5, "CONTINUE", color(0, 255, 0));
@@ -126,7 +127,6 @@ void draw() {
     /********************************************
      *     Gap & Ship Collision Detection       *
      ********************************************/
-
 
     if (isCollidingWithBarrier) {
       if (!ship.isInCollision()) {
@@ -248,7 +248,6 @@ void draw() {
       }
     }
 
-
     removeBarriers();
   }
 }
@@ -350,8 +349,6 @@ public void addBarrier(Barrier b) {
   barriers = newArray;
 }
 
-
-
 // Add a new picku
 public void addPickup(Pickup p) {
   // Create a new array with one more element
@@ -399,7 +396,6 @@ public Pickup[] removePickup(Pickup[] pickups, int index) {
 
   return newArray;
 }
-
 
 // Remove barriers that are no longer visible on the screen
 private void removeBarriers() {
