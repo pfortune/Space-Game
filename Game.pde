@@ -9,6 +9,7 @@ Player player;
 Ship ship;
 Button resetButton;
 Button continueButton;
+Scoreboard scoreboard;
 Enemy[] aliens;
 
 float barrierHeight;
@@ -19,6 +20,7 @@ float alienSpawnInterval = 5000;
 float lastDrawTime;
 int spawnInterval = 30000; // Time between new barriers (milliseconds)
 boolean isPaused = false;
+boolean scoreUpdated = false;
 
 void setup() {
   size(1280, 720); // Set game window sise
@@ -30,6 +32,7 @@ void setup() {
   lastBarrierSpawnTime = -spawnInterval; // Start by spawning a barrier immediately
   keyHandler = new KeyHandler(); // Make a KeyHandler object for keyboard input
   ship = new Ship(keyHandler); // Make a Ship object and give it the keyHandler
+  scoreboard = new Scoreboard(10);
   aliens = new Enemy[0];
   pickups = new Pickup[0];
 
@@ -55,6 +58,10 @@ void draw() {
 
 
   if (player.getLives() == 0) {
+    if (scoreUpdated == false) {
+      scoreboard.update(player.getName(), player.getScore());
+      scoreUpdated = true;
+    }
     showGameOverMenu();
     return;
   }
@@ -70,7 +77,7 @@ void draw() {
     // Calculate the time elapsed since the last draw call
     float deltaTime = (millis() - lastDrawTime)/1000;
     lastDrawTime = millis();
-    println(lastBarrierSpawnTime);
+    //println(lastBarrierSpawnTime);
     // Spawn a new barrier if it's time to spawn one
     if (millis() - lastBarrierSpawnTime >= spawnInterval) {
       addBarrier(new Barrier());
@@ -268,6 +275,7 @@ public void resetGame() {
   pickups = new Pickup[0];
   spawnInterval = 30000; // Reset the spawn interval
   lastBarrierSpawnTime = -spawnInterval; // spawn barrier immediately
+  scoreUpdated = false;
 }
 
 public void showGameOverMenu() {
@@ -277,7 +285,7 @@ public void showGameOverMenu() {
   textSize(50);
   textAlign(CENTER, CENTER);
   text("GAME OVER", width/2, height/4);
-
+  scoreboard.display(int((width / 2) - (boxSize / 2)), int(height / 2));
   resetButton.display();
 }
 
