@@ -31,11 +31,11 @@ public class BoundingBox {
     return xOverlap && yOverlap;
   }
 
-  public boolean containsOnX(BoundingBox other) {
+  private boolean containsOnX(BoundingBox other) {
     return (this.getX() < other.getX() && (other.getX() + other.getWidth()) < (this.getX() + this.getWidth()));
   }
 
-  public boolean containsOnY(BoundingBox other) {
+  private boolean containsOnY(BoundingBox other) {
     return (this.getY() < other.getY() && (other.getY() + other.getHeight()) < (this.getY() + this.getHeight()));
   }
 

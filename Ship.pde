@@ -126,7 +126,7 @@ public class Ship {
   /**
    * Fires a missile from the ship if there are missiles available and the cooldown period has passed.
    */
-  public void fireMissile() {
+  private void fireMissile() {
     // Check if the missile can be fired
     if (missileCount > 0 && timeSinceLastFired >= 0.5) {
       timeSinceLastFired = 0;
@@ -144,11 +144,11 @@ public class Ship {
    *             float y - The y-coordinate of the puffball.
    *             color startColour - The starting colour of the puffball.
    */
-  public void addPuff(float x, float y, color startColour) {
+  private void addPuff(float x, float y, color startColour) {
     addPuff(new PuffBall(x, y, startColour));
   }
 
-  public void addPuff(PuffBall puff) {
+  private void addPuff(PuffBall puff) {
     PuffBall[] newArray = new PuffBall[puffs.length + 1];
     arrayCopy(puffs, newArray);
     newArray[puffs.length] = puff;

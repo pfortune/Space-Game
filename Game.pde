@@ -207,7 +207,6 @@ void checkBarrierCollisions(float deltaTime) {
   if (isCollidingWithBarrier) {
     player.loseLife(); // Reduce player's lives
     ship.respawn();
-    ship.setColliding(true); // Set the ship's collision status to true
   } else {
     ship.setColliding(false);
   }

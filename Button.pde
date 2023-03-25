@@ -2,7 +2,6 @@ class Button {
   private float x, y, w, h;
   private String text;
   private color colour;
-  private boolean pressed, clicked;
 
   public Button(float x, float y, float w, float h, String text, color colour) {
     setX(x);

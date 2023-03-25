@@ -90,7 +90,7 @@ class Enemy {
     return true;
   }
 
-  public void fireMissile() {
+  private void fireMissile() {
     // Check if the missile can be fired
     Missile[] newArray = new Missile[missiles.length + 1];
     arrayCopy(missiles, newArray);
@@ -100,7 +100,7 @@ class Enemy {
     missiles = newArray;
   }
 
-  public void removeMissile(int index) {
+  private void removeMissile(int index) {
     Missile[] newArray = new Missile[missiles.length - 1];
     for (int i = 0, j = 0; i < missiles.length; i++) {
       if (i != index) {

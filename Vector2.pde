@@ -13,8 +13,8 @@ public class Vector2 {
    * Creates a new object with the given x and y values.
    */
   public Vector2(float x, float y) {
-    this.x = x;
-    this.y = y;
+    setX(x);
+    setY(y);
   }
 
   /**
@@ -25,8 +25,8 @@ public class Vector2 {
     float distance = dist(x1, y1, x2, y2);
 
     // Calculate the normalised direction
-    x = (x2 - x1) / distance;
-    y = (y2 - y1) / distance;
+    setX((x2 - x1) / distance);
+    setY((y2 - y1) / distance);
   }
 
   /*********************/

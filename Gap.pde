@@ -1,4 +1,4 @@
-public class Gap { //<>// //<>//
+public class Gap {  //<>//
   // Declare instance variables for position, size, speed, color, and bounding box
   private float x, y, w, h;
   private BoundingBox boundingBox;
