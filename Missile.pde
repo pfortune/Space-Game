@@ -13,17 +13,17 @@ public class Missile {
     this();
     setX(x);
     setY(y);
-    this.direction = dir;
-    this.lifetime = 5000;
-    this.timeSpawned = millis();
+    setDirection(dir);
+    setLifetime(5000);
+    setTimeSpawned(millis());
   }
 
   // Default constructor for Missile class
   public Missile() {
     setPayload(50);
-    setWidth(payload/10);
-    setHeight(payload/3);
-    setSpeed(payload/10);
+    setWidth(getPayload()/10);
+    setHeight(getPayload()/3);
+    setSpeed(getPayload()/10);
     setColour(color(255, 0, 155));
     // Create a new BoundingBox for the missile
     this.boundingBox = new BoundingBox(getX(), getY(), getWidth(), getHeight());
@@ -44,7 +44,7 @@ public class Missile {
   // Check if the missile is ready to be cleaned up
   public boolean readyForCleanup() {
     // If the missile has been alive for more than its lifetime, return true
-    if (millis() - timeSpawned >= lifetime) {
+    if (millis() - getTimeSpawned() >= getLifetime()) {
       return true;
     }
 
@@ -74,7 +74,7 @@ public class Missile {
   // Display the missile on the screen
   public void display() {
     if (explosion == null) {
-      fill(colour);
+      fill(getColour());
       rect(getX() - (getWidth() / 2), getY() - (getHeight() / 2), getWidth(), getHeight());
     } else {
       // Update and display the explosion
@@ -116,8 +116,24 @@ public class Missile {
     this.payload = payload;
   }
 
-  public BoundingBox getBoundingBox() {
-    return this.boundingBox;
+  public void setBoundingBox(BoundingBox boundingBox) {
+    this.boundingBox = boundingBox;
+  }
+
+  public void setExplosion(PuffBall explosion) {
+    this.explosion = explosion;
+  }
+
+  public void setDirection(Vector2 direction) {
+    this.direction = direction;
+  }
+
+  public void setLifetime(int lifetime) {
+    this.lifetime = lifetime;
+  }
+
+  public void setTimeSpawned(int timeSpawned) {
+    this.timeSpawned = timeSpawned;
   }
 
   public float getX() {
@@ -146,5 +162,25 @@ public class Missile {
 
   public float getPayload() {
     return this.payload;
+  }
+
+  public BoundingBox getBoundingBox() {
+    return this.boundingBox;
+  }
+
+  public PuffBall getExplosion() {
+    return this.explosion;
+  }
+
+  public Vector2 getDirection() {
+    return this.direction;
+  }
+
+  public int getLifetime() {
+    return this.lifetime;
+  }
+
+  public int getTimeSpawned() {
+    return this.timeSpawned;
   }
 }
