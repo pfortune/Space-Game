@@ -31,13 +31,12 @@ public class PuffBall {
 
   // Display method that draws the PuffBall if it's not expired
   public void display() {
-    if (isExpired()) {
-      return;
+    if (!isExpired()) {
+      fill(getCurrentColour());
+      circle(getX(), getY(), getCurrentRadius());
     }
-
-    fill(getCurrentColour());
-    circle(getX(), getY(), getCurrentRadius());
   }
+
 
   // Checks if the PuffBall is expired (i.e., reached the end of its duration)
   public boolean isExpired() {

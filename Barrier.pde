@@ -44,18 +44,18 @@ public class Barrier { //<>//
       return false;
     }
 
-    for (int i=0; i<gaps.length; i++) {
-      if (gaps[i] == null) {
-        continue; // Skip if the gap is null (removed)
-      }
-      Gap g = gaps[i];
+    for (int i = 0; i < gaps.length; i++) {
+      if (gaps[i] != null) {
+        Gap g = gaps[i];
 
-      if (g.getBoundingBox().containsOnX(other)) {
-        return false;
+        if (g.getBoundingBox().containsOnX(other)) {
+          return false;
+        }
       }
     }
     return true;
   }
+
 
   private void collided(float x, float payload) {
     addGap(new Gap(x-ship.getWidth(), getY(), 50, getHeight()*2));
@@ -67,13 +67,12 @@ public class Barrier { //<>//
     boundingBox.setY(getY()); // Update the bounding box's Y position
 
     for (int i=0; i<gaps.length; i++) {
-      if (gaps[i] == null) {
-        continue; // Skip if the gap is null (removed)
-      }
+      if (gaps[i] != null) {
 
-      Gap g = gaps[i];
-      g.setY(this.y);
-      g.update();
+        Gap g = gaps[i];
+        g.setY(this.y);
+        g.update();
+      }
     }
   }
 
@@ -83,12 +82,11 @@ public class Barrier { //<>//
     rect(getX(), getY(), getWidth(), getHeight());
 
     for (int i=0; i<gaps.length; i++) {
-      if (gaps[i] == null) {
-        continue; // Skip if the gap is null (removed)
-      }
+      if (gaps[i] != null) {
 
-      Gap g = gaps[i];
-      g.display();
+        Gap g = gaps[i];
+        g.display();
+      }
     }
   }
 
@@ -98,16 +96,15 @@ public class Barrier { //<>//
     int gapsToRemove = 0;
 
     for (int i=0; i<gaps.length; i++) {
-      if (gaps[i] == null) {
-        continue; // Skip if the gap is null (removed)
-      }
+      if (gaps[i] != null) {
 
-      Gap g = gaps[i];
+        Gap g = gaps[i];
 
-      if (g.getBoundingBox().hasCollided(newGap.getBoundingBox())) {
-        newGap.merge(g);
-        gaps[i] = null;
-        gapsToRemove++;
+        if (g.getBoundingBox().hasCollided(newGap.getBoundingBox())) {
+          newGap.merge(g);
+          gaps[i] = null;
+          gapsToRemove++;
+        }
       }
     }
 

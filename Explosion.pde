@@ -42,11 +42,9 @@ public class Explosion {
   public void update() {
     int i = 0;
     while (i < puffs.length) {
-      if (puffs[i] == null) {
-        i++;
-        continue;
+      if (puffs[i] != null) {
+        puffs[i].update();
       }
-      puffs[i].update();
       i++;
     }
   }
@@ -57,11 +55,9 @@ public class Explosion {
   public void display() {
     int i = 0;
     while (i < puffs.length) {
-      if (puffs[i] == null) {
-        i++;
-        continue;
+      if (puffs[i] != null) {
+        puffs[i].display();
       }
-      puffs[i].display();
       i++;
     }
   }
@@ -73,17 +69,16 @@ public class Explosion {
   public boolean completed() {
     int i = 0;
     while (i < puffs.length) {
-      if (puffs[i] == null) {
-        i++;
-        continue;
-      }
-      if (!puffs[i].isExpired()) {
-        return false;
+      if (puffs[i] != null) {
+        if (!puffs[i].isExpired()) {
+          return false;
+        }
       }
       i++;
     }
     return true;
   }
+
 
 
   /*********************/

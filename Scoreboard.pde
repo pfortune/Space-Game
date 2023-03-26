@@ -14,28 +14,30 @@ class Scoreboard {
     }
   }
 
-  public void update(String playerName, int score) {
-    int newIndex = -1;
+public void update(String playerName, int score) {
+  int newIndex = -1;
+  boolean foundIndex = false;
 
-    for (int i = 0; i < getMaxSize(); i++) {
-      if (getPlayerName(i) == null || getScore(i) < score) {
-        newIndex = i;
-        break;
-      }
-    }
-
-    if (newIndex != -1) {
-      // Shift all elements after the newIndex one position to the right
-      for (int i = getMaxSize() - 1; i > newIndex; i--) {
-        setPlayerName(i, getPlayerName(i - 1));
-        setScore(i, getScore(i - 1));
-      }
-
-      // Insert the new playerName and score at newIndex
-      setPlayerName(newIndex, playerName);
-      setScore(newIndex, score);
+  for (int i = 0; i < getMaxSize() && !foundIndex; i++) {
+    if (getPlayerName(i) == null || getScore(i) < score) {
+      newIndex = i;
+      foundIndex = true;
     }
   }
+
+  if (newIndex != -1) {
+    // Shift all elements after the newIndex one position to the right
+    for (int i = getMaxSize() - 1; i > newIndex; i--) {
+      setPlayerName(i, getPlayerName(i - 1));
+      setScore(i, getScore(i - 1));
+    }
+
+    // Insert the new playerName and score at newIndex
+    setPlayerName(newIndex, playerName);
+    setScore(newIndex, score);
+  }
+}
+
 
   public void display(int x, int y) {
     textSize(20);

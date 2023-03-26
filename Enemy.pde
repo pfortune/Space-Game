@@ -32,25 +32,24 @@ class Enemy {
       explosion.update();
     }
 
-    if (isDead()) {
-      return;
+    if (!isDead()) {
+
+      if (millis() - timeLastFired >= reloadTime) {
+        fireMissile();
+        timeLastFired = millis();
+      }
+
+      Vector2 dir = new Vector2();
+      dir.normalizeFrom(getX(), getY(), ship.getX(), ship.getY());
+
+      // Update the enemy's position
+      x += dir.x * speed;
+      y += dir.y * speed;
+
+      // Update the enemy's bounding box
+      boundingBox.setX(getX() - 20);
+      boundingBox.setY(getY() - 40);
     }
-
-    if (millis() - timeLastFired >= reloadTime) {
-      fireMissile();
-      timeLastFired = millis();
-    }
-
-    Vector2 dir = new Vector2();
-    dir.normalizeFrom(getX(), getY(), ship.getX(), ship.getY());
-
-    // Update the enemy's position
-    x += dir.x * speed;
-    y += dir.y * speed;
-
-    // Update the enemy's bounding box
-    boundingBox.setX(getX() - 20);
-    boundingBox.setY(getY() - 40);
   }
 
   public void display() {
@@ -62,16 +61,16 @@ class Enemy {
       explosion.display();
     }
 
-    if (isDead()) {
-      return;
-    }
-    // Main body (triangle)
-    fill(200, 30, 30);
-    triangle(getX(), getY(), getX() - 20, getY() - 40, getX() + 20, getY() - 40);
+    if (!isDead()) {
 
-    // Cabin (rectangle)
-    fill(100, 100, 100);
-    rect(getX() - 5, getY() - 30, 10, 10);
+      // Main body (triangle)
+      fill(200, 30, 30);
+      triangle(getX(), getY(), getX() - 20, getY() - 40, getX() + 20, getY() - 40);
+
+      // Cabin (rectangle)
+      fill(100, 100, 100);
+      rect(getX() - 5, getY() - 30, 10, 10);
+    }
   }
 
   public boolean readyForCleanup() {

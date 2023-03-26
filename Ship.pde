@@ -180,10 +180,9 @@ public class Ship {
     Missile[] newArray = new Missile[array.length - 1];
     // Copy elements from the original array, skipping the element at the specified index
     for (int i = 0, j = 0; i < array.length; i++) {
-      if (i == index) {
-        continue;
+      if (i != index) {
+        newArray[j++] = array[i];
       }
-      newArray[j++] = array[i];
     }
     return newArray;
   }
@@ -213,10 +212,9 @@ public class Ship {
     PuffBall[] newArray = new PuffBall[array.length - 1];
     // Copy elements from the original array, skipping the element at the specified index
     for (int i = 0, j = 0; i < array.length; i++) {
-      if (i == index) {
-        continue;
+      if (i != index) {
+        newArray[j++] = array[i];
       }
-      newArray[j++] = array[i];
     }
     return newArray;
   }

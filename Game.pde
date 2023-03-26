@@ -113,28 +113,28 @@ void checkPickupCollisions() {
    ********************************************/
 
   for (int i = 0; i < pickups.length; i++) {
-    if (pickups[i] == null) {
-      continue;
-    }
-    if (ship.getBoundingBox().hasCollided(pickups[i].getBoundingBox())) {
-      ship.increaseMissileCount(int(random(1, 5)));
-
-      pickups = removePickup(pickups, i);
-      continue;
-    }
-
-    /********************************************
-     *   Barrier & Pickup Collision Detection   *
-     ********************************************/
-    for (int j=0; j<barriers.length; j++ ) {
-      if (barriers[j] == null) {
-        continue;
-      }
-      Barrier b = barriers[j];
-
-      if (b.collisionCheck(pickups[i].getBoundingBox())) {
+    if (pickups[i] != null) {
+      if (ship.getBoundingBox().hasCollided(pickups[i].getBoundingBox())) {
+        ship.increaseMissileCount(int(random(1, 5)));
         pickups = removePickup(pickups, i);
-        break;
+      } else {
+        boolean removedPickup = false;
+
+
+        /********************************************
+         *   Barrier & Pickup Collision Detection   *
+         ********************************************/
+        for (int j=0; j<barriers.length && !removedPickup; j++ ) {
+          if (barriers[j] != null) {
+
+            Barrier b = barriers[j];
+
+            if (b.collisionCheck(pickups[i].getBoundingBox())) {
+              pickups = removePickup(pickups, i);
+              removedPickup = true;
+            }
+          }
+        }
       }
     }
   }
@@ -145,20 +145,21 @@ void checkShipAlienMissileCollisions() {
    *   Ship/Alien Missile Collision Detection  *
    *********************************************/
   for (int i = 0; i < aliens.length; i++) {
-    for (int j = 0; j < aliens[i].getMissiles().length; j++) {
+    boolean shipHit = false;
+
+    for (int j = 0; j < aliens[i].getMissiles().length & !shipHit; j++) {
       Missile m = aliens[i].getMissile(j);
 
-      if (m.getBoundingBox() == null) {
-        continue;
-      }
+      if (m.getBoundingBox() != null) {
 
-      if (m.getBoundingBox().hasCollided(ship.getBoundingBox())) {
-        // Decrease player's lives or health
-        player.loseLife();
-        m.explode();
-        ship.respawn();
+        if (m.getBoundingBox().hasCollided(ship.getBoundingBox())) {
+          // Decrease player's lives or health
+          player.loseLife();
+          m.explode();
+          ship.respawn();
 
-        break;
+          shipHit = true;
+        }
       }
     }
   }
@@ -170,36 +171,37 @@ void checkBarrierCollisions(float deltaTime) {
 
   // Loop through all barriers
   for (int i = 0; i < barriers.length; i++) {
-    if (barriers[i] == null) {
-      continue; // Skip if the barrier is null (removed)
-    }
+    if (barriers[i] != null) {
 
-    Barrier b = barriers[i];
-    b.update(deltaTime); // Update barrier state
-    b.display(); // Draw the barrier
 
-    /********************************************
-     *    Barrier & Ship Collision Detection    *
-     ********************************************/
+      Barrier b = barriers[i];
+      b.update(deltaTime); // Update barrier state
+      b.display(); // Draw the barrier
 
-    // Check if the ship is colliding with the current barrier
-    if (b.collisionCheck(ship.getBoundingBox())) {
-      isCollidingWithBarrier = true;
-    }
+      /********************************************
+       *    Barrier & Ship Collision Detection    *
+       ********************************************/
 
-    /********************************************
-     *   Barrier & Missile Collision Detection  *
-     ********************************************/
-    for (int j=0; j<ship.getMissiles().length; j++) {
-      Missile m = ship.getMissile(j);
-
-      if (m.getBoundingBox() == null) {
-        continue;
+      // Check if the ship is colliding with the current barrier
+      if (b.collisionCheck(ship.getBoundingBox())) {
+        isCollidingWithBarrier = true;
       }
 
-      if (b.collisionCheck(m.getBoundingBox())) {
-        b.collided(m.getX(), m.getPayload());
-        m.explode();
+
+      /********************************************
+       *   Barrier & Missile Collision Detection  *
+       ********************************************/
+      for (int j=0; j<ship.getMissiles().length; j++) {
+        Missile m = ship.getMissile(j);
+
+        if (m.getBoundingBox() != null) {
+
+
+          if (b.collisionCheck(m.getBoundingBox())) {
+            b.collided(m.getX(), m.getPayload());
+            m.explode();
+          }
+        }
       }
     }
   }
@@ -222,18 +224,17 @@ void checkAlienShipCollisions() {
     aliens[i].update(ship);
     aliens[i].display();
 
-    if (aliens[i] == null) {
-      break;
-    }
+    if (aliens[i] != null) {
 
-    if (aliens[i].readyForCleanup()) {
-      aliens = removeAlien(aliens, i);
-    }
+      if (aliens[i].readyForCleanup()) {
+        aliens = removeAlien(aliens, i);
+      }
 
-    if (!aliens[i].isDead() && ship.getBoundingBox().hasCollided(aliens[i].getBoundingBox())) {
-      aliens[i].setDead(true);
-      player.loseLife(); // Reduce player's lives
-      ship.respawn();
+      if (!aliens[i].isDead() && ship.getBoundingBox().hasCollided(aliens[i].getBoundingBox())) {
+        aliens[i].setDead(true);
+        player.loseLife(); // Reduce player's lives
+        ship.respawn();
+      }
     }
   }
 }
@@ -245,21 +246,21 @@ void checkAlienShipMissileCollisions() {
   for (int i = 0; i < ship.getMissiles().length; i++) {
     Missile m = ship.getMissile(i);
 
-    if (m.getBoundingBox() == null) {
-      continue;
-    }
+    if (m.getBoundingBox() != null) {
+      boolean missileHit = false;
 
-    // Check for collision between the current missile and all alien ships
-    for (int j = 0; j < aliens.length; j++) {
-      if (!aliens[j].isDead() && m.getBoundingBox().hasCollided(aliens[j].getBoundingBox())) {
-        //Increase player score
-        player.addScore(2);
-        spawnInterval -= spawnInterval/10;
-        m.explode();
-        addPickup(new Pickup(aliens[j].getX(), aliens[j].getY()));
-        // Remove the alien ship from the game
-        aliens[j].setDead(true);
-        break;
+      // Check for collision between the current missile and all alien ships
+      for (int j = 0; j < aliens.length && !missileHit; j++) {
+        if (!aliens[j].isDead() && m.getBoundingBox().hasCollided(aliens[j].getBoundingBox())) {
+          // Increase player score
+          player.addScore(2);
+          spawnInterval -= spawnInterval / 10;
+          m.explode();
+          addPickup(new Pickup(aliens[j].getX(), aliens[j].getY()));
+          // Remove the alien ship from the game
+          aliens[j].setDead(true);
+          missileHit = true;
+        }
       }
     }
   }
@@ -436,10 +437,9 @@ private Barrier[] removeFromArray(Barrier[] array, int index) {
   Barrier[] newArray = new Barrier[array.length - 1];
   // Copy all elements from the original array to the new array, skipping the one to be removed
   for (int i = 0, j = 0; i < array.length; i++) {
-    if (i == index) {
-      continue;
+    if (i != index) {
+      newArray[j++] = array[i];
     }
-    newArray[j++] = array[i];
   }
   // Return the new array
   return newArray;
