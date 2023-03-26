@@ -47,10 +47,10 @@ void setup() {
 void draw() {
   // Set the background colour to black
   background(0);
-
   // Handle different game states
   if (!gameStart) {
     showStartMenu();
+    return;
   } else if (player.getLives() == 0) {
     handleGameOver();
   } else {
@@ -158,7 +158,6 @@ void checkBarrierCollisions(float deltaTime) {
         Missile m = ship.getMissile(j);
 
         if (m.getBoundingBox() != null) {
-
 
           if (b.collisionCheck(m.getBoundingBox())) {
             b.collided(m.getX(), m.getPayload());
@@ -305,12 +304,12 @@ public void requestPlayerName() {
     playerName = "Player1";
   } else if (playerName.length() > 10) {
     playerName = playerName.substring(0, 10);
+  } else {
+
+    // Make a Player object with the name and 3 lives
+    player = new Player(playerName.trim(), 3);
+    gameStart = true;
   }
-
-
-  // Make a Player object with the name and 3 lives
-  player = new Player(playerName.trim(), 3);
-  gameStart = true;
 }
 
 public void resetGame() {

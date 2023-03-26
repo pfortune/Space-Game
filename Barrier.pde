@@ -92,14 +92,14 @@ public class Barrier { //<>//
 
   // Add a new gap to a barrier
   public void addGap(Gap newGap) {
-
     int gapsToRemove = 0;
 
-    for (int i=0; i<gaps.length; i++) {
+    // Check for collisions with existing gaps
+    for (int i = 0; i < gaps.length; i++) {
       if (gaps[i] != null) {
-
         Gap g = gaps[i];
 
+        // If a collision is detected, merge the gaps and mark the old gap for removal
         if (g.getBoundingBox().hasCollided(newGap.getBoundingBox())) {
           newGap.merge(g);
           gaps[i] = null;
@@ -108,18 +108,24 @@ public class Barrier { //<>//
       }
     }
 
+    // Create a new array with the updated size
     Gap[] newArray = new Gap[gaps.length - gapsToRemove + 1];
     int newIndex = 0;
 
-    for (int i = 0; i <gaps.length; i++) {
+    // Copy the non-null gaps to the new array
+    for (int i = 0; i < gaps.length; i++) {
       if (gaps[i] != null) {
         newArray[newIndex++] = gaps[i];
       }
     }
+
+    // Add the new gap to the new array
     newArray[newIndex] = newGap;
-    // Set the new array as the gaps array
+
+    // Update the gaps array with the new array
     gaps = newArray;
   }
+
 
 
   /*********************/
