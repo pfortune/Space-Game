@@ -128,7 +128,7 @@ public class Ship {
    */
   private void fireMissile() {
     // Check if the missile can be fired
-    if (missileCount > 0 && timeSinceLastFired >= 0.5) {
+    if (missileCount > 0 && timeSinceLastFired >= 0.4) {
       timeSinceLastFired = 0;
       Missile[] newArray = new Missile[missiles.length + 1];
       arrayCopy(missiles, newArray);

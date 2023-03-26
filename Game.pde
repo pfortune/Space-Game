@@ -71,11 +71,12 @@ void handleGameOver() {
 
 // Handle the gameplay state
 void handleGameplay() {
-  // Toggle the pause state if the pause key is pressed
   if (keyHandler.isPaused()) {
     isPaused = !isPaused;
     keyHandler.setPaused(false);
   }
+
+  if (isPaused) {
     showPauseMenu();
   } else {
     updateGame();
