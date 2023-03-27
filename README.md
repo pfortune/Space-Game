@@ -1,5 +1,8 @@
 # Space Game README
 
+## Setup
+This game requires Processing4 to run. Also, make sure the folder that the game is in is called SpaceGame or the game will not run correctly. If the folder is not SpaceGame, rename it. Then open the SpaceGame.pde file in Processing4.
+
 ## Description
 
 Space Game is a fun spaceship game where you fight aliens, avoid missiles, and go through barriers that show up more often as you kill aliens. Grab power-ups to get more missiles and try to get the highest score!
