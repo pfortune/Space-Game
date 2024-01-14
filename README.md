@@ -1,7 +1,8 @@
 # Space Game README
 
 ## Setup
-To run this game, you'll need to have Processing4 installed on your computer. Additionally, it's important to ensure that the game files are stored within a folder named "SpaceGame", as the game may not run correctly if the folder has a different name. If necessary, rename the folder to "SpaceGame" and open the "SpaceGame.pde" file in Processing4 to start playing.
+
+To run this game, you'll need to have Processing4 installed on your computer. Additionally, it's important to ensure that the game files are stored within a folder named "SpaceGame", as the game may not run correctly if the folder has a different name. If necessary, rename the folder to "SpaceGame" and open the "Game.pde" file in Processing4 to start playing.
 
 ## Description
 
