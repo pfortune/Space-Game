@@ -8,6 +8,14 @@ To run this game, you'll need to have Processing4 installed on your computer. Ad
 
 Space Game is a fun spaceship game where you fight aliens, avoid missiles, and go through barriers that show up more often as you kill aliens. Grab power-ups to get more missiles and try to get the highest score!
 
+![Space Game Screenshot](game.png)
+
+## Gameplay Video
+
+Watch the gameplay video to see Space Game in action:
+
+[![Watch the video](https://img.youtube.com/vi/_UYNMz95eBA/maxresdefault.jpg)](https://www.youtube.com/watch?v=_UYNMz95eBA)
+
 ## Keystrokes/Mouse
 
 - AWSD or the arrow keys for movement
